@@ -1,0 +1,164 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Berita</title><script src="assets/auth.js?v=2.54.1"></script><script src="assets/data.js?v=2.54.1"></script><script src="assets/core-v257.js?v=2.57-P1.1" defer></script><script src="assets/relationships-v257.js?v=2.57-P1.2" defer></script><script src="assets/compatibility-v257.js?v=2.57-P1.7" defer></script><script src="assets/files.js?v=2.54.1"></script><script src="assets/app.js?v=2.54.1" defer></script><script src="assets/v254-project.js?v=2.54.4" defer></script><script src="assets/v2544-modal-fix.js?v=2.54.4" defer></script><script>document.documentElement.classList.add("r9-boot")</script><link rel="stylesheet" href="assets/portal.css?v=10.5"></head><body id="top">
+<header class="top">
+<button id="mobileNavTriggerV233" class="mobile-nav-trigger-v233" type="button" aria-label="Buka menu utama" aria-expanded="false">☰</button>
+<div class="brand"><h1>GROUND EXPERIENCE GARUDA INDONESIA</h1><p>Ground Experience • Service Experience Portal</p></div>
+<div class="logos header-logos">
+  <img class="garuda-logo" src="assets/garuda-indonesia.png" alt="Garuda Indonesia">
+  <img class="danantara-logo" src="assets/danantara.png" alt="Danantara Indonesia">
+</div>
+<div class="session-tools">
+  <div class="session-user"><b id="sessionName"></b><span id="sessionRole"></span></div>
+  <button class="logout-btn" onclick="gxLogout()">Keluar</button>
+</div>
+</header>
+<div class="shell"><aside class="side">
+<div class="main-section" onclick="toggleSidebar()" title="Tampilkan atau sembunyikan menu utama"><span>MAIN</span><span class="main-control">≡</span></div>
+<a href="index.html">Beranda</a>
+<div class="final-nav-group"><div class="final-nav-label">Integrated Experience</div><a href="network-stations.html">Network & Station</a><a href="station-360.html">Station 360</a><a href="airport-experience-map.html">Airport Experience Map</a><a href="readiness.html">Readiness</a><a href="customer-experience.html">Customer Experience</a><a href="improvement-intake.html">Improvement</a><a href="inisiatif.html">Initiative</a><a href="budget-cost.html">Budget & Cost</a><a href="management-outcome.html">Management & Outcome</a></div>
+
+<div class="service-nav" id="serviceNav">
+  <div class="service-toggle" data-nav-toggle="service" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Layanan Garuda Indonesia">
+    <span>Layanan Garuda Indonesia</span><span class="menu-chevron">⌄</span>
+  </div>
+  <a href="touchpoint.html">Touch Point Garuda Indonesia</a>
+  <a href="standar.html">Standar Layanan Garuda Indonesia</a>
+  <a href="map.html">Peta Airport Penerbangan</a>
+</div>
+
+<div class="initiative-nav" id="initiativeNav">
+  <div class="initiative-toggle" data-nav-toggle="initiative" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Kegiatan & Inisiatif">
+    <span>Kegiatan & Inisiatif</span><span class="menu-chevron">⌄</span>
+  </div>
+<a href="calendar.html" class="calendar-project-nav-v2531">Calendar & Project Tracking</a>
+  <a href="pre-journey.html">Pre-Journey</a>
+  <a href="pre-flight.html">Pre-Flight</a>
+  <a href="post-flight.html">Post-Flight</a>
+  <a href="post-journey.html">Post-Journey</a>
+</div>
+
+<div class="planning-nav" id="planningNav">
+  <div class="planning-toggle" data-nav-toggle="planning" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Service Planning">
+    <span>Service Planning</span><span class="menu-chevron">⌄</span>
+  </div>
+  <a href="service-planning.html">Planning Overview</a>
+  <a href="station-material.html">Station Material</a>
+  <a href="lounge-list.html">Lounge/Tenant Planning</a>
+  <a href="branch-office-planning.html">Branch Office Planning</a>
+  <a href="gaso-planning.html">GASO Planning</a>
+  <a href="planning-documents.html">Planning Documents</a>
+</div>
+
+
+<a href="data.html">Data</a>
+<a href="berita.html">Berita & Informasi</a>
+<a href="kontak.html">Hubungi Kami</a>
+<a href="admin.html" data-role-min="Admin">Admin / Pengelola</a>
+</aside><main class="main">
+<section class="hero">
+  <h2>Berita & Informasi</h2>
+  <p>Central information hub Ground Experience untuk artikel, pengumuman, dan referensi tanya jawab.</p>
+</section>
+
+<div class="grid3 content-selector-grid">
+  <button class="card content-selector active" onclick="showContentPanel('articles',this)">
+    <h3>Artikel & Tulisan</h3><p>Insight dan knowledge sharing Ground Experience.</p><span>Buka Artikel</span>
+  </button>
+  <button class="card content-selector" onclick="showContentPanel('announcements',this)">
+    <h3>Pengumuman</h3><p>Informasi operasional dan corporate announcement.</p><span>Buka Pengumuman</span>
+  </button>
+  <button class="card content-selector" onclick="showContentPanel('faqs',this)">
+    <h3>FAQ</h3><p>Tanya jawab umum untuk tim dan stakeholder.</p><span>Buka FAQ</span>
+  </button>
+</div>
+
+<section id="contentPanelArticles" class="content-panel">
+  <div class="title">
+    <div><h3>Artikel & Tulisan</h3><div class="section-subtitle">Knowledge sharing dari Head Office dan Branch Office.</div></div>
+    <div class="content-actions">
+      <button class="btn" data-admin-only onclick="openArticleEditor()">Tulis Artikel</button>
+      <button class="btn secondary branch-proposal-only" onclick="openArticleProposal()">Propose Artikel</button>
+    </div>
+  </div>
+  <div id="featuredArticle"></div>
+  <div id="articleGrid" class="article-grid"></div>
+</section>
+
+<section id="contentPanelAnnouncements" class="content-panel" style="display:none">
+  <div class="title">
+    <div><h3>Pengumuman</h3><div class="section-subtitle">Informasi operasional dan corporate announcement.</div></div>
+    <button class="btn" data-admin-only onclick="openAnnouncementEditor()">Tambah Pengumuman</button>
+  </div>
+  <div id="announcementList" class="announcement-list"></div>
+</section>
+
+<section id="contentPanelFaqs" class="content-panel" style="display:none">
+  <div class="title">
+    <div><h3>FAQ</h3><div class="section-subtitle">Referensi pertanyaan dan jawaban umum.</div></div>
+    <button class="btn" data-admin-only onclick="openFaqEditor()">Tambah FAQ</button>
+  </div>
+  <div id="faqList" class="faq-list"></div>
+</section>
+
+<div id="articleViewModal" class="modal-backdrop">
+  <div class="modal-card article-view-modal">
+    <button class="modal-x" onclick="closeArticleView()">×</button>
+    <div id="articleViewBody"></div>
+  </div>
+</div>
+
+<div id="articleEditorModal" class="modal-backdrop">
+  <div class="modal-card content-editor-modal">
+    <button class="modal-x" onclick="closeArticleEditor()">×</button>
+    <h2 id="articleEditorTitle">Tulis Artikel</h2>
+    <input id="articleEditId" type="hidden">
+    <label>Judul Artikel<input id="articleTitle" required></label>
+    <label>Inisial Penulis<input id="articleAuthorInitial" maxlength="12" placeholder="Contoh: GX"></label>
+    <label>Cover Image<input id="articleCover" type="file" accept="image/*"></label>
+    <label>Isi Artikel
+      <div id="articleContentEditor" class="rich-editor" contenteditable="true" onpaste="geRichPaste(event)" data-placeholder="Copy-paste isi dari Word di sini. Teks dan gambar dari clipboard didukung pada prototype offline."></div>
+    </label>
+    <div class="editor-note">Created by akan mengikuti akun yang sedang login. Gambar yang dipaste disimpan sebagai bagian konten browser; untuk production disarankan menggunakan document/image storage backend.</div>
+    <div class="modal-actions sticky-actions"><button class="btn" onclick="saveArticle()">Publish</button><button class="btn secondary" onclick="closeArticleEditor()">Batal</button></div>
+  </div>
+</div>
+
+<div id="articleProposalModal" class="modal-backdrop">
+  <div class="modal-card content-editor-modal">
+    <button class="modal-x" onclick="closeArticleProposal()">×</button>
+    <h2>Propose Artikel</h2>
+    <label>Judul Artikel<input id="proposalTitle"></label>
+    <label>Inisial Penulis<input id="proposalAuthorInitial" maxlength="12"></label>
+    <label>Isi Artikel
+      <div id="proposalContentEditor" class="rich-editor" contenteditable="true" onpaste="geRichPaste(event)"></div>
+    </label>
+    <div class="editor-note">Proposal tidak langsung dipublikasikan. Proposal akan masuk ke Pesan Masuk Admin/Super Admin untuk direview.</div>
+    <div class="modal-actions sticky-actions"><button class="btn" onclick="submitArticleProposal()">Kirim Proposal</button><button class="btn secondary" onclick="closeArticleProposal()">Batal</button></div>
+  </div>
+</div>
+
+<div id="announcementEditorModal" class="modal-backdrop">
+  <div class="modal-card content-editor-modal compact-content-modal">
+    <button class="modal-x" onclick="closeAnnouncementEditor()">×</button>
+    <h2 id="announcementEditorTitle">Tambah Pengumuman</h2>
+    <input id="announcementEditId" type="hidden">
+    <label>Judul<input id="announcementTitle"></label>
+    <label>Isi<div id="announcementContent" class="rich-editor small" contenteditable="true" onpaste="geRichPaste(event)"></div></label>
+    <div class="modal-actions sticky-actions"><button class="btn" onclick="saveAnnouncement()">Publish</button><button class="btn secondary" onclick="closeAnnouncementEditor()">Batal</button></div>
+  </div>
+</div>
+
+<div id="faqEditorModal" class="modal-backdrop">
+  <div class="modal-card content-editor-modal compact-content-modal">
+    <button class="modal-x" onclick="closeFaqEditor()">×</button>
+    <h2 id="faqEditorTitle">Tambah FAQ</h2>
+    <input id="faqEditId" type="hidden">
+    <label>Pertanyaan<input id="faqQuestion"></label>
+    <label>Jawaban<textarea id="faqAnswer" rows="6"></textarea></label>
+    <div class="modal-actions sticky-actions"><button class="btn" onclick="saveFaq()">Publish</button><button class="btn secondary" onclick="closeFaqEditor()">Batal</button></div>
+  </div>
+</div>
+</main></div>
+<script>['articleEditorModal','announcementEditorModal','faqEditorModal'].forEach(function(id){var m=document.getElementById(id);if(!m)return;document.body.appendChild(m);m.style.setProperty('position','fixed','important');m.style.setProperty('inset','0','important');m.style.setProperty('width','100vw','important');m.style.setProperty('height','100vh','important');m.style.setProperty('margin','0','important');m.style.setProperty('z-index','2147483000','important');m.style.setProperty('align-items','center','important');m.style.setProperty('justify-content','center','important');m.style.setProperty('padding','24px','important');var c=m.firstElementChild;if(c){c.style.setProperty('position','relative','important');c.style.setProperty('inset','auto','important');c.style.setProperty('transform','none','important');c.style.setProperty('margin','auto','important');c.style.setProperty('max-height','calc(100vh - 48px)','important');c.style.setProperty('overflow','auto','important')}});</script>
+<footer class="footer"><b>GROUND EXPERIENCE — GARUDA INDONESIA</b><br>Portal Service Experience • Internal Ground Services Workspace</footer>
+<button id="backToTop" class="back-to-top" aria-label="Kembali ke atas" title="Kembali ke atas">↑</button>
+<script src="assets/v2554-stability.js?v=2.55.5" defer></script><script src="assets/portal-shell.js?v=10.5" defer></script></body></html>

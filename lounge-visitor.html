@@ -1,0 +1,167 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Index</title><script src="assets/auth.js?v=2.54.1"></script><script src="assets/data.js?v=2.54.1"></script><script src="assets/core-v257.js?v=2.57-P1.1" defer></script><script src="assets/relationships-v257.js?v=2.57-P1.2" defer></script><script src="assets/compatibility-v257.js?v=2.57-P1.7" defer></script><script src="assets/files.js?v=2.54.1"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script><script src="assets/app.js?v=2.54.1" defer></script><script src="assets/v254-project.js?v=2.54.4" defer></script><script src="assets/v2544-modal-fix.js?v=2.54.4" defer></script><script>document.documentElement.classList.add("r9-boot")</script><link rel="stylesheet" href="assets/portal.css?v=10.5"></head><body id="top" class="lounge-tosca-theme lounge-reference-v237">
+<header class="top">
+<button id="mobileNavTriggerV233" class="mobile-nav-trigger-v233" type="button" aria-label="Buka menu utama" aria-expanded="false">☰</button>
+<div class="brand"><h1>GROUND EXPERIENCE GARUDA INDONESIA</h1><p>Ground Experience • Service Experience Portal</p></div>
+<div class="logos header-logos">
+  <img class="garuda-logo" src="assets/garuda-indonesia.png" alt="Garuda Indonesia">
+  <img class="danantara-logo" src="assets/danantara.png" alt="Danantara Indonesia">
+</div>
+<div class="session-tools">
+  <div class="session-user"><b id="sessionName"></b><span id="sessionRole"></span></div>
+  <button class="logout-btn" onclick="gxLogout()">Keluar</button>
+</div>
+</header>
+<div class="shell"><aside class="side">
+<div class="main-section" onclick="toggleSidebar()" title="Tampilkan atau sembunyikan menu utama"><span>MAIN</span><span class="main-control">≡</span></div>
+<a href="index.html">Beranda</a>
+<div class="final-nav-group"><div class="final-nav-label">Integrated Experience</div><a href="network-stations.html">Network & Station</a><a href="station-360.html">Station 360</a><a href="airport-experience-map.html">Airport Experience Map</a><a href="readiness.html">Readiness</a><a href="customer-experience.html">Customer Experience</a><a href="improvement-intake.html">Improvement</a><a href="inisiatif.html">Initiative</a><a href="budget-cost.html">Budget & Cost</a><a href="management-outcome.html">Management & Outcome</a></div>
+
+<div class="service-nav" id="serviceNav">
+  <div class="service-toggle" data-nav-toggle="service" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Layanan Garuda Indonesia">
+    <span>Layanan Garuda Indonesia</span><span class="menu-chevron">⌄</span>
+  </div>
+  <a href="touchpoint.html">Touch Point Garuda Indonesia</a>
+  <a href="standar.html">Standar Layanan Garuda Indonesia</a>
+  <a href="map.html">Peta Airport Penerbangan</a>
+</div>
+
+<div class="initiative-nav" id="initiativeNav">
+  <div class="initiative-toggle" data-nav-toggle="initiative" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Kegiatan & Inisiatif">
+    <span>Kegiatan & Inisiatif</span><span class="menu-chevron">⌄</span>
+  </div>
+<a href="calendar.html" class="calendar-project-nav-v2531">Calendar & Project Tracking</a>
+  <a href="pre-journey.html">Pre-Journey</a>
+  <a href="pre-flight.html">Pre-Flight</a>
+  <a href="post-flight.html">Post-Flight</a>
+  <a href="post-journey.html">Post-Journey</a>
+</div>
+
+<div class="planning-nav" id="planningNav">
+  <div class="planning-toggle" data-nav-toggle="planning" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Service Planning">
+    <span>Service Planning</span><span class="menu-chevron">⌄</span>
+  </div>
+  <a href="service-planning.html">Planning Overview</a>
+  <a href="station-material.html">Station Material</a>
+  <a href="lounge-list.html">Lounge/Tenant Planning</a>
+  <a href="branch-office-planning.html">Branch Office Planning</a>
+  <a href="gaso-planning.html">GASO Planning</a>
+  <a href="planning-documents.html">Planning Documents</a>
+</div>
+
+
+<a href="data.html">Data</a>
+<a href="berita.html">Berita & Informasi</a>
+<a href="kontak.html">Hubungi Kami</a>
+<a href="admin.html" data-role-min="Admin">Admin / Pengelola</a>
+</aside><main class="main">
+<section class="lounge-open-heading-v237">
+      <div class="hero-title-actions">
+        <div><div class="lounge-open-kicker-v237">MONITORING VISITOR</div><h2>Lounge/Tenant Visitor</h2><p>Monitoring visitor Lounge/Tenant seluruh Branch Office berdasarkan hasil verifikasi Lounge/Tenant Access.</p></div>
+        <div id="loungeVisitorBulkActionsV223" class="bulk-action-group bulk-visitor-actions-v225" style="display:none">
+          <button type="button" class="btn secondary bulk-visitor-btn-v225" onclick="downloadLoungeVisitorTemplateV225()">Unduh Template</button>
+          <button type="button" class="btn bulk-visitor-btn-v225" onclick="openBulkImportV223('visitor')">Upload Visitor</button>
+        </div>
+      </div>
+    </section>
+<div class="card">
+ <div class="filter-grid">
+  <input id="visitorStart" type="date"><input id="visitorEnd" type="date">
+  <select id="visitorAirport"><option value="">Semua Airport</option></select>
+  <select id="visitorCategory"><option value="">Semua Kategori</option><option>Business Class</option><option>Platinum</option><option>Elite Plus</option><option>Gold Privilege</option><option>Elite</option><option>GPS</option><option>Kerjasama MPA</option><option>EMD</option></select>
+  <button class="btn lounge-primary-v240" onclick="renderLoungeVisitors()">Submit</button><button class="btn secondary lounge-secondary-v240" onclick="downloadLoungeVisitorsCSV()">Unduh CSV Visitor</button><button class="btn secondary lounge-secondary-v240" onclick="openVisitorReportModalV239()">Laporan PDF</button>
+ </div>
+</div>
+<div class="grid visitor-summary">
+ <div class="card kpi"><b id="visitorCount">0</b><span>Total Visitor</span></div>
+ <div class="card kpi"><b id="visitorBusiness">0</b><span>Business Class</span></div>
+ <div class="card kpi"><b id="visitorTier">0</b><span>Loyalty / Partnership / EMD</span></div>
+</div>
+
+<section class="card visitor-traffic-card-v232">
+  <div class="visitor-traffic-head-v232">
+    <div>
+      <h3>Traffic Visitor per Jam</h3>
+      <p>Distribusi Lounge/Tenant Visitor selama 24 jam berdasarkan periode dan filter yang dipilih.</p>
+    </div>
+    <div class="visitor-traffic-summary-v232">
+      <span>Peak Hour</span><b id="visitorPeakHourV232">-</b>
+    </div>
+  </div>
+  <div id="visitorTrafficChartV232" class="visitor-traffic-chart-v232"></div>
+</section>
+
+<div class="card table-scroll"><table><thead><tr><th>No</th><th>Tanggal</th><th>Waktu</th><th>Nama Penumpang</th><th>Rute</th><th>Flight Number</th><th>Cabin / Seat</th><th>Sequence</th><th>Airport</th><th>Nama Lounge/Tenant</th><th>Kategori Penumpang</th><th>Referensi Eligibility</th><th>Harga / Pax</th><th data-role-min="Admin">Kelola</th></tr></thead><tbody id="loungeVisitorRows"></tbody></table></div>
+<section class="visitor-cost-summary visitor-cost-summary-v240">
+  <div class="visitor-cost-block-v240"><span>Total Visitor Terfilter</span><b id="visitorFilteredTotal">0</b></div>
+  <div class="visitor-cost-block-v240 visitor-cost-main-v240"><span>Estimasi Biaya Lounge/Tenant</span><div id="visitorEstimatedCost" class="visitor-estimated-cost-v240"><strong>Belum tersedia</strong></div></div>
+  <div class="visitor-cost-note-v240"><span>Basis Perhitungan</span><p>Harga mengikuti Lounge/Tenant Master dan local currency. Visitor historis dicocokkan berdasarkan lounge, airport, tanggal kunjungan, dan periode kerja sama.</p></div>
+</section>
+
+
+<div id="visitorReportModalV239" class="modal-backdrop">
+ <div class="modal-card visitor-report-modal-v239">
+  <button class="modal-x" onclick="closeVisitorReportModalV239()">×</button>
+  <span class="lounge-open-kicker-v237">LAPORAN VISITOR</span>
+  <h2>Download Laporan Visitor</h2>
+  <p class="section-subtitle">Buat rekap harian atau bulanan dalam PDF berdasarkan Branch Office dan Lounge/Tenant.</p>
+  <div class="formgrid">
+   <label>Periode Laporan<select id="visitorReportTypeV239" onchange="visitorReportTypeChangedV239()"><option value="daily">Harian</option><option value="monthly">Bulanan</option></select></label>
+   <label id="visitorReportDailyWrapV239">Tanggal<input id="visitorReportDateV239" type="date"></label>
+   <label id="visitorReportMonthlyWrapV239" style="display:none">Bulan<input id="visitorReportMonthV239" type="month"></label>
+   <label>Branch Office<select id="visitorReportAirportV239"><option value="">Pilih Branch Office</option></select></label>
+   <label>Lounge/Tenant<select id="visitorReportLoungeV239"><option value="">Pilih Lounge/Tenant</option></select></label>
+  </div>
+  <div class="modal-actions sticky-actions"><button class="btn" onclick="downloadVisitorReportPDFV239()">Download PDF</button><button type="button" class="btn secondary" onclick="closeVisitorReportModalV239()">Batal</button></div>
+ </div>
+</div>
+
+<div id="visitorEditModal" class="modal-backdrop">
+<div class="modal-card visitor-edit-modal-card">
+<button class="modal-x" onclick="closeVisitorEditModal()">×</button>
+<h2>Update Lounge Visitor</h2>
+<p class="section-subtitle">Perbarui data visitor. Perubahan hanya tersedia untuk Super Admin dan Admin.</p>
+<form id="visitorEditForm" onsubmit="event.preventDefault();saveVisitorEditModal()">
+<input id="visitorEditId" type="hidden">
+<div class="formgrid">
+<label>Nama Penumpang<input id="visitorEditName" required></label>
+<label>Flight Number<input id="visitorEditFlight" required></label>
+<label>Sequence Check-in<input id="visitorEditSeq" required></label>
+<label>Airport<input id="visitorEditAirport" required></label>
+<label>Kategori Penumpang<select id="visitorEditCategory" onchange="visitorEditCategoryChanged()"></select></label>
+<label id="visitorEditReferenceWrap">Referensi Eligibility<input id="visitorEditReference"></label>
+</div>
+<div class="modal-actions sticky-actions">
+<button class="btn">Simpan Perubahan</button>
+<button type="button" class="btn secondary" onclick="closeVisitorEditModal()">Batal</button>
+</div>
+</form>
+</div>
+</div>
+
+<div id="bulkImportModalV223" class="modal-backdrop">
+  <div class="modal-card bulk-import-modal-v223">
+    <button class="modal-x" onclick="closeBulkImportV223()">×</button>
+    <span class="bulk-import-eyebrow">Bulk Data Import</span>
+    <h2 id="bulkImportTitleV223">Upload Data</h2>
+    <p id="bulkImportHelpV223" class="section-subtitle"></p>
+
+    <div class="bulk-import-dropzone">
+      <input id="bulkImportFileV223" type="file" accept=".xlsx,.csv" onchange="previewBulkImportV223(this.files[0])">
+      <div>
+        <b>Pilih file Excel (.xlsx) atau CSV</b>
+        <span>Gunakan template agar nama kolom dapat dikenali otomatis.</span>
+      </div>
+    </div>
+
+    <div id="bulkImportPreviewV223" class="bulk-import-preview-v223"></div>
+
+    <div class="modal-actions sticky-actions">
+      <button id="bulkImportConfirmV223" class="btn" onclick="confirmBulkImportV231()" disabled>Import Data</button>
+      <button type="button" class="btn secondary" onclick="closeBulkImportV223()">Batal</button>
+    </div>
+  </div>
+</div>
+</main></div>
+<footer class="footer"><b>GROUND EXPERIENCE — GARUDA INDONESIA</b><br>Portal Service Experience • Internal Ground Services Workspace</footer>
+<button id="backToTop" class="back-to-top" aria-label="Kembali ke atas" title="Kembali ke atas">↑</button>
+<script src="assets/v2554-stability.js?v=2.55.5" defer></script><script src="assets/portal-shell.js?v=10.5" defer></script></body></html>

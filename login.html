@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Login — Ground Experience Portal</title>
+
+<script src="assets/auth.js?v=2.54.1"></script>
+<script>document.documentElement.classList.add("r9-boot")</script><link rel="stylesheet" href="assets/portal.css?v=10.5"></head>
+<body>
+<section class="login-page">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="login-logos">
+        <img class="garuda-logo" src="assets/garuda-indonesia.png" alt="Garuda Indonesia">
+        <img class="danantara-logo" src="assets/danantara.png" alt="Danantara Indonesia">
+      </div>
+      <h1>Ground Experience Portal</h1>
+      <p>Internal Service Experience Workspace</p>
+    </div>
+
+    <form class="login-form" id="loginForm">
+      <label for="loginUser">Username</label>
+      <input id="loginUser" autocomplete="username" value="superadmin">
+
+      <label for="loginPass">Password</label>
+      <input id="loginPass" type="password" autocomplete="current-password" value="admin123">
+
+      <button class="login-submit" type="submit">Masuk</button>
+      <div id="loginError" class="login-error">Username atau password tidak sesuai.</div>
+
+      <div class="login-note">
+        <b>Akun awal:</b> superadmin / admin123. Akun berikutnya dikelola oleh Admin/Super Admin melalui menu Data → Account & Access Management.
+      </div>
+    </form>
+  </div>
+</section>
+<script>
+if(gxGetSession()) location.replace(gxConsumeReturnTo()||gxDefaultPage());
+loginForm.addEventListener('submit',e=>{
+  e.preventDefault();
+  const user=gxAuthenticate(loginUser.value,loginPass.value);
+  if(!user){loginError.textContent='Username/password tidak sesuai atau akun tidak aktif.';loginError.style.display='block';return}
+  const session={...user,loginAt:Date.now()};
+  gxSetSession(session);
+  gxAuditDirect('Login','Authentication','Session','User logged in',session);
+  location.replace(gxConsumeReturnTo()||gxDefaultPage());
+});
+</script>
+<script src="assets/v2544-modal-fix.js?v=2.54.4" defer></script><script src="assets/v2554-stability.js?v=2.55.5" defer></script><script src="assets/portal-shell.js?v=10.5" defer></script></body>
+</html>

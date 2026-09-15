@@ -1,0 +1,236 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin</title><script src="assets/auth.js?v=2.54.1"></script><script src="assets/data.js?v=2.54.1"></script><script src="assets/core-v257.js?v=2.57-P1.1" defer></script><script src="assets/relationships-v257.js?v=2.57-P1.2" defer></script><script src="assets/compatibility-v257.js?v=2.57-P1.7" defer></script><script src="assets/files.js?v=2.54.1"></script><script src="assets/app.js?v=2.54.1" defer></script><script src="assets/v254-project.js?v=2.54.4" defer></script><script src="assets/v2544-modal-fix.js?v=2.54.4" defer></script><script>document.documentElement.classList.add("r9-boot")</script><link rel="stylesheet" href="assets/portal.css?v=10.5"></head><body id="top">
+<header class="top">
+<button id="mobileNavTriggerV233" class="mobile-nav-trigger-v233" type="button" aria-label="Buka menu utama" aria-expanded="false">☰</button>
+<div class="brand"><h1>GROUND EXPERIENCE GARUDA INDONESIA</h1><p>Ground Experience • Service Experience Portal</p></div>
+<div class="logos header-logos">
+  <img class="garuda-logo" src="assets/garuda-indonesia.png" alt="Garuda Indonesia">
+  <img class="danantara-logo" src="assets/danantara.png" alt="Danantara Indonesia">
+</div>
+<div class="session-tools">
+  <div class="session-user"><b id="sessionName"></b><span id="sessionRole"></span></div>
+  <button class="logout-btn" onclick="gxLogout()">Keluar</button>
+</div>
+</header>
+<div class="shell"><aside class="side">
+<div class="main-section" onclick="toggleSidebar()" title="Tampilkan atau sembunyikan menu utama"><span>MAIN</span><span class="main-control">≡</span></div>
+<a href="index.html">Beranda</a>
+<div class="final-nav-group"><div class="final-nav-label">Integrated Experience</div><a href="network-stations.html">Network & Station</a><a href="station-360.html">Station 360</a><a href="airport-experience-map.html">Airport Experience Map</a><a href="readiness.html">Readiness</a><a href="customer-experience.html">Customer Experience</a><a href="improvement-intake.html">Improvement</a><a href="inisiatif.html">Initiative</a><a href="budget-cost.html">Budget & Cost</a><a href="management-outcome.html">Management & Outcome</a></div>
+
+<div class="service-nav" id="serviceNav">
+  <div class="service-toggle" data-nav-toggle="service" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Layanan Garuda Indonesia">
+    <span>Layanan Garuda Indonesia</span><span class="menu-chevron">⌄</span>
+  </div>
+  <a href="touchpoint.html">Touch Point Garuda Indonesia</a>
+  <a href="standar.html">Standar Layanan Garuda Indonesia</a>
+  <a href="map.html">Peta Airport Penerbangan</a>
+</div>
+
+<div class="initiative-nav" id="initiativeNav">
+  <div class="initiative-toggle" data-nav-toggle="initiative" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Kegiatan & Inisiatif">
+    <span>Kegiatan & Inisiatif</span><span class="menu-chevron">⌄</span>
+  </div>
+<a href="calendar.html" class="calendar-project-nav-v2531">Calendar & Project Tracking</a>
+  <a href="pre-journey.html">Pre-Journey</a>
+  <a href="pre-flight.html">Pre-Flight</a>
+  <a href="post-flight.html">Post-Flight</a>
+  <a href="post-journey.html">Post-Journey</a>
+</div>
+
+<div class="planning-nav" id="planningNav">
+  <div class="planning-toggle" data-nav-toggle="planning" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Service Planning">
+    <span>Service Planning</span><span class="menu-chevron">⌄</span>
+  </div>
+  <a href="service-planning.html">Planning Overview</a>
+  <a href="station-material.html">Station Material</a>
+  <a href="lounge-list.html">Lounge/Tenant Planning</a>
+  <a href="branch-office-planning.html">Branch Office Planning</a>
+  <a href="gaso-planning.html">GASO Planning</a>
+  <a href="planning-documents.html">Planning Documents</a>
+</div>
+
+
+<a href="data.html">Data</a>
+<a href="berita.html">Berita & Informasi</a>
+<a href="kontak.html">Hubungi Kami</a>
+<a href="admin.html" data-role-min="Admin">Admin / Pengelola</a>
+</aside><main class="main">
+<section class="hero">
+  <h2>Admin / Pengelola</h2>
+  <p>Governance workspace untuk pengelolaan akun, pesan masuk, content workflow, dan audit trail portal Ground Experience.</p>
+</section>
+
+<div class="admin-overview-grid">
+  <div class="card admin-overview-card"><span>Managed Accounts</span><b id="adminAccountCount">0</b><small>Akun aktif & nonaktif</small></div>
+  <div class="card admin-overview-card"><span>Inbox</span><b id="adminInboxCount">0</b><small>Proposal, pesan, saran</small></div>
+  <div class="card admin-overview-card"><span>Unread</span><b id="adminUnreadCount">0</b><small>Perlu ditindaklanjuti</small></div>
+  <div class="card admin-overview-card"><span>Audit Events</span><b id="adminAuditCount">0</b><small>Jejak perubahan portal</small></div>
+</div>
+
+<div class="admin-section-tabs">
+  <button class="admin-section-tab active" onclick="showAdminSection('accounts',this)">Account & Access</button>
+  <button class="admin-section-tab" onclick="showAdminSection('inbox',this)">Pesan Masuk</button>
+  <button class="admin-section-tab" onclick="showAdminSection('audit',this)">Activity Log</button>
+  <button class="admin-section-tab" data-role-min="Super Admin" onclick="showAdminSection('portal',this)">Portal Management</button>
+</div>
+
+<section id="adminSectionAccounts" class="admin-section-panel">
+<div class="title" id="account-access">
+  <div><h3>Account & Access Management</h3><div class="section-subtitle">Kelola pegawai, akun login, role, area data, dan TAB yang dapat diakses.</div></div>
+  <button class="btn" data-admin-only onclick="openUserModal()">Tambah Akun</button>
+</div>
+
+<div class="card account-guide">
+  <div><b>Super Admin</b><span>All area • seluruh akses termasuk pengelolaan hak akses.</span></div>
+  <div><b>Admin</b><span>All area • edit/hapus data dan pengelolaan akun.</span></div>
+  <div><b>Branch Office</b><span>Data dibatasi pada Airport yang ditugaskan.</span></div>
+  <div><b>Staff</b><span>TAB ditentukan sesuai kebutuhan HO / BO.</span></div>
+  <div><b>Lounge Staff</b><span>Hanya Lounge Access & Visitor untuk lounge yang ditugaskan.</span></div>
+  <div><b>Lounge Luar Biasa</b><span>Lounge Access & Visitor untuk lounge yang ditugaskan, termasuk bulk upload visitor saat scanner/perangkat bermasalah.</span></div>
+</div>
+
+<div class="card data-filter-card">
+<div class="data-filter-grid">
+  <input id="accountSearch" placeholder="Cari nama / username / no. pegawai" oninput="renderUserAccounts()">
+  <select id="accountRoleFilter" onchange="renderUserAccounts()"><option value="">Semua Role</option></select>
+  <select id="accountStatusFilter" onchange="renderUserAccounts()"><option value="">Semua Status</option><option>Active</option><option>Inactive</option></select>
+  <input id="accountAreaFilter" placeholder="Unit / Area" oninput="renderUserAccounts()">
+</div></div>
+<div class="card table-scroll">
+<table class="user-access-table">
+<thead><tr>
+<th>No</th><th>Nama Pegawai</th><th>No. Pegawai</th><th>Username</th><th>Role</th><th>Unit / Area</th><th>Data Scope</th><th>Allowed TAB</th><th>Status</th><th data-admin-only>Kelola</th>
+</tr></thead>
+<tbody id="userAccountRows"></tbody>
+</table>
+</div>
+
+<div id="userAccountModal" class="modal-backdrop">
+<div class="modal-card account-modal-card">
+<button class="modal-x" onclick="closeUserModal()">×</button>
+<h2 id="userModalTitle">Tambah Akun</h2>
+<form id="userAccountForm" onsubmit="event.preventDefault();saveUserAccount()">
+<input id="userEditId" type="hidden">
+<div class="formgrid">
+<label>Nama Pegawai<input id="userFullName" required></label>
+<label>No. Pegawai<input id="userEmployeeNo"></label>
+<label>Username<input id="userUsername" required autocomplete="off"></label>
+<label>Password<input id="userPassword" type="password" required autocomplete="new-password"></label>
+<label>Role
+<select id="userRole" onchange="userRoleChanged()" required>
+<option>Super Admin</option><option>Admin</option><option>Branch Office</option><option>Staff</option><option>Lounge Staff</option><option>Lounge Luar Biasa</option>
+</select></label>
+<label>Unit / Area<input id="userUnit" placeholder="Head Office / BO CGK / CGK Lounge"></label>
+<label>Status<select id="userStatus"><option>Active</option><option>Inactive</option></select></label>
+</div>
+
+<div class="account-scope-box">
+<h3>Data Scope</h3>
+<div id="userAirportScopeWrap"><label>Airport (pisahkan dengan koma)<input id="userAirports" placeholder="CGK, DPS"></label></div>
+<div id="userLoungeScopeWrap"><label>Lounge
+<select id="userLoungeIds" multiple size="5"></select></label></div>
+</div>
+
+<div class="account-scope-box">
+<h3>Allowed TAB</h3>
+<div id="userTabsChecklist" class="tab-check-grid"></div>
+</div>
+
+<div class="modal-actions sticky-actions">
+<button class="btn">Simpan Akun</button>
+<button type="button" class="btn secondary" onclick="closeUserModal()">Batal</button>
+</div>
+</form>
+</div>
+</div>
+
+</section>
+
+<section id="adminSectionInbox" class="admin-section-panel" style="display:none">
+  <div class="title">
+    <div><h3>Pesan Masuk</h3><div class="section-subtitle">Proposal artikel, pesan dari Hubungi Kami, dan Saran/Buku Tamu.</div></div>
+  </div>
+  <div class="card data-filter-card">
+    <div class="data-filter-grid">
+      <input id="inboxSearch" placeholder="Cari pengirim / subjek / isi" oninput="renderAdminInbox()">
+      <select id="inboxTypeFilter" onchange="renderAdminInbox()">
+        <option value="">Semua Jenis</option><option value="Article Proposal">Article Proposal</option><option value="Message">Kirim Pesan</option><option value="Guestbook">Saran / Buku Tamu</option>
+      </select>
+      <select id="inboxStatusFilter" onchange="renderAdminInbox()">
+        <option value="">Semua Status</option><option>Unread</option><option>Read</option><option>Handled</option>
+      </select>
+    </div>
+  </div>
+  <div class="card table-scroll">
+    <table class="admin-inbox-table">
+      <thead><tr><th>No</th><th>Tanggal</th><th>Jenis</th><th>Dari</th><th>Area</th><th>Subjek</th><th>Status</th><th>Kelola</th></tr></thead>
+      <tbody id="adminInboxRows"></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="adminSectionAudit" class="admin-section-panel" style="display:none">
+  <div class="title">
+    <div><h3>Activity Log / Audit Trail</h3><div class="section-subtitle">Jejak aktivitas tambah, update, edit, hapus, login, dan workflow untuk kebutuhan accountability.</div></div>
+    <button class="btn secondary" onclick="downloadAuditCSV()">Unduh CSV</button>
+  </div>
+  <div class="card data-filter-card">
+    <div class="data-filter-grid">
+      <input id="auditSearch" placeholder="Cari user / modul / objek / aktivitas" oninput="renderAuditLogs()">
+      <select id="auditActionFilter" onchange="renderAuditLogs()"><option value="">Semua Aktivitas</option></select>
+      <select id="auditModuleFilter" onchange="renderAuditLogs()"><option value="">Semua Modul</option></select>
+      <input id="auditDateFilter" type="date" onchange="renderAuditLogs()">
+    </div>
+  </div>
+  <div class="card table-scroll">
+    <table class="audit-table">
+      <thead><tr><th>No</th><th>Waktu</th><th>User</th><th>Role</th><th>Aktivitas</th><th>Modul</th><th>Objek</th><th>Detail</th></tr></thead>
+      <tbody id="auditRows"></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="adminSectionPortal" class="admin-section-panel" style="display:none" data-role-min="Super Admin">
+  <div class="portal-management-head">
+    <div><div class="eyebrow">PORTAL GOVERNANCE</div><h2>Portal Management</h2><p>Kelola page, text, menu, layout, component, asset, dan presentation tanpa mengubah source code halaman.</p></div>
+    <div class="portal-status"><span>V2.51 Consolidated</span><span>Super Admin only</span><span id="portalPublishState">Draft ready</span></div>
+  </div>
+  <div class="portal-grid">
+    <article class="card portal-card">
+      <h3>Page & Text Editor</h3><p>Edit judul dan deskripsi halaman, atau siapkan page baru dengan struktur yang konsisten.</p>
+      <div class="portal-field"><label>Page</label><select id="pmPage" onchange="pmLoadPageR2()"><option value="index.html">Beranda</option><option value="standar.html">Standar Layanan Garuda Indonesia</option><option value="touchpoint.html">Touch Point Garuda Indonesia</option><option value="service-planning.html">Service Planning</option><option value="lounge-list.html">Lounge/Tenant Planning</option><option value="calendar.html">Calendar Event</option></select></div>
+      <div class="portal-field"><label>Page title</label><input id="pmTitle" value="Standar Layanan Garuda Indonesia"></div>
+      <div class="portal-field"><label>Short description</label><textarea id="pmDescription">Framework People • Process • Premises untuk menjaga konsistensi service delivery.</textarea></div>
+      <div class="portal-actions"><button class="btn" onclick="pmSavePageR2()">Simpan Draft</button><button class="btn secondary" onclick="pmPreviewR2()">Preview</button><button class="btn secondary" onclick="pmNewPage()">+ Tambah Page</button></div>
+    </article>
+    <article class="card portal-card">
+      <h3>Chart & Visualization</h3><p>Pilih presentation dashboard tanpa mengubah sumber datanya.</p>
+      <div class="portal-field"><label>Readiness summary</label><select id="pmChart"><option>Bar chart</option><option>Line chart</option><option>Donut chart</option><option>KPI cards</option></select></div>
+      <div class="portal-preview"><i style="height:38%"></i><i style="height:64%"></i><i style="height:49%"></i><i style="height:88%"></i><i style="height:73%"></i></div>
+      <div class="portal-actions"><button class="btn secondary" onclick="pmSaveDraft('Chart Style')">Simpan Presentation</button></div>
+    </article>
+    <article class="card portal-card portal-card-wide">
+      <h3>Page Section & Layout Manager</h3><p>Atur visibility dan urutan section pada page. Perubahan diterapkan setelah Publish.</p>
+      <div class="portal-field"><label>Section pada page terpilih</label><div id="pmSectionListR2" class="pm-section-list-r2"></div></div>
+      <div class="portal-actions"><button class="btn" onclick="pmSaveSectionsR2()">Simpan Layout Draft</button><button class="btn secondary" onclick="pmResetSectionsR2()">Reset Page</button></div>
+      <hr class="portal-separator-r2">
+      <h3>Menu & Navigation</h3><p>Visibility menu utama dapat dikendalikan tanpa menghapus halaman dari source.</p>
+      <div id="pmMenuListR2" class="portal-menu-list"></div>
+      <div class="portal-actions"><button class="btn" onclick="pmSaveMenusR2()">Simpan Menu Draft</button></div>
+    </article>
+    <article class="card portal-card"><h3>Component & Field Manager</h3><p>Foundation untuk table, form, card, KPI, map, document section, mandatory field, filter dan role editing.</p><div class="portal-note">V2.50 memakai global component standard. Super Admin mengubah property komponen, bukan HTML/CSS bebas.</div><div class="portal-actions"><button class="btn secondary" onclick="pmSaveDraft('Components')">Kelola Components</button></div></article>
+    <article class="card portal-card"><h3>Asset Library</h3><p>Upload image, template CSV dan dokumen untuk digunakan kembali oleh page/content editor.</p><div class="portal-field"><label>Upload asset</label><input id="pmAsset" type="file" multiple></div><div class="portal-note">Pada prototype ini file disimpan di IndexedDB browser, bukan sekadar nama file. Production tetap memerlukan central object storage.</div><div class="portal-actions"><button class="btn" onclick="pmRegisterAssetsR2()">Upload Asset</button><button class="btn secondary" onclick="pmAssetListR2()">Refresh Library</button></div><div id="pmAssetLibraryR2" class="pm-asset-grid-r2"></div></article>
+    <article class="card portal-card portal-card-wide"><h3>Draft → Preview → Publish</h3><p>Perubahan konten disiapkan sebagai draft terlebih dahulu agar tidak langsung mengubah halaman live.</p><div class="portal-actions"><button class="btn secondary" onclick="pmPreviewR2()">Preview Draft</button><button class="btn" onclick="pmPublishR2()">Publish Changes</button></div><div class="portal-note" id="pmActivity">Belum ada perubahan pada sesi Portal Management ini.</div></article>
+  </div>
+</section>
+
+<div id="inboxDetailModal" class="modal-backdrop">
+  <div class="modal-card inbox-detail-card">
+    <button class="modal-x" onclick="closeInboxDetail()">×</button>
+    <div id="inboxDetailBody"></div>
+  </div>
+</div>
+</main></div>
+<script>(function(){var m=document.getElementById('userAccountModal');if(!m)return;document.body.appendChild(m);m.style.setProperty('position','fixed','important');m.style.setProperty('inset','0','important');m.style.setProperty('width','100vw','important');m.style.setProperty('height','100vh','important');m.style.setProperty('margin','0','important');m.style.setProperty('z-index','2147483000','important');m.style.setProperty('align-items','center','important');m.style.setProperty('justify-content','center','important');m.style.setProperty('padding','24px','important');var c=m.firstElementChild;if(c){c.style.setProperty('position','relative','important');c.style.setProperty('inset','auto','important');c.style.setProperty('transform','none','important');c.style.setProperty('margin','auto','important');c.style.setProperty('max-height','calc(100vh - 48px)','important');c.style.setProperty('overflow','auto','important')}})();</script>
+<footer class="footer"><b>GROUND EXPERIENCE — GARUDA INDONESIA</b><br>Portal Service Experience • Internal Ground Services Workspace</footer>
+<button id="backToTop" class="back-to-top" aria-label="Kembali ke atas" title="Kembali ke atas">↑</button>
+<script src="assets/v2554-stability.js?v=2.55.5" defer></script><script src="assets/portal-shell.js?v=10.5" defer></script></body></html>

@@ -1,0 +1,172 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Inisiatif</title><script src="assets/auth.js?v=2.54.1"></script><script src="assets/data.js?v=2.54.1"></script><script src="assets/core-v257.js?v=2.57-P1.1" defer></script><script src="assets/relationships-v257.js?v=2.57-P1.2" defer></script><script src="assets/compatibility-v257.js?v=2.57-P1.7" defer></script><script src="assets/files.js?v=2.54.1"></script><script src="assets/app.js?v=2.54.1" defer></script><script src="assets/v254-project.js?v=2.54.4" defer></script><script src="assets/v2544-modal-fix.js?v=2.54.4" defer></script>
+<script>document.documentElement.classList.add("r9-boot")</script><link rel="stylesheet" href="assets/portal.css?v=10.5"></head><body id="top">
+<header class="top">
+<button id="mobileNavTriggerV233" class="mobile-nav-trigger-v233" type="button" aria-label="Buka menu utama" aria-expanded="false">☰</button>
+<div class="brand"><h1>GROUND EXPERIENCE GARUDA INDONESIA</h1><p>Ground Experience • Service Experience Portal</p></div>
+<div class="logos header-logos">
+  <img class="garuda-logo" src="assets/garuda-indonesia.png" alt="Garuda Indonesia">
+  <img class="danantara-logo" src="assets/danantara.png" alt="Danantara Indonesia">
+</div>
+<div class="session-tools">
+  <div class="session-user"><b id="sessionName"></b><span id="sessionRole"></span></div>
+  <button class="logout-btn" onclick="gxLogout()">Keluar</button>
+</div>
+</header>
+<div class="shell"><aside class="side">
+<div class="main-section" onclick="toggleSidebar()" title="Tampilkan atau sembunyikan menu utama"><span>MAIN</span><span class="main-control">≡</span></div>
+<a href="index.html">Beranda</a>
+<div class="final-nav-group"><div class="final-nav-label">Integrated Experience</div><a href="network-stations.html">Network & Station</a><a href="station-360.html">Station 360</a><a href="airport-experience-map.html">Airport Experience Map</a><a href="readiness.html">Readiness</a><a href="customer-experience.html">Customer Experience</a><a href="improvement-intake.html">Improvement</a><a href="inisiatif.html">Initiative</a><a href="budget-cost.html">Budget & Cost</a><a href="management-outcome.html">Management & Outcome</a></div>
+
+<div class="service-nav" id="serviceNav">
+  <div class="service-toggle" data-nav-toggle="service" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Layanan Garuda Indonesia">
+    <span>Layanan Garuda Indonesia</span><span class="menu-chevron">⌄</span>
+  </div>
+  <a href="touchpoint.html">Touch Point Garuda Indonesia</a>
+  <a href="standar.html">Standar Layanan Garuda Indonesia</a>
+  <a href="map.html">Peta Airport Penerbangan</a>
+</div>
+
+<div class="initiative-nav" id="initiativeNav">
+  <div class="initiative-toggle" data-nav-toggle="initiative" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Kegiatan & Inisiatif">
+    <span>Kegiatan & Inisiatif</span><span class="menu-chevron">⌄</span>
+  </div>
+<a href="calendar.html" class="calendar-project-nav-v2531">Calendar & Project Tracking</a>
+  <a href="pre-journey.html">Pre-Journey</a>
+  <a href="pre-flight.html">Pre-Flight</a>
+  <a href="post-flight.html">Post-Flight</a>
+  <a href="post-journey.html">Post-Journey</a>
+</div>
+
+<div class="planning-nav" id="planningNav">
+  <div class="planning-toggle" data-nav-toggle="planning" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Service Planning">
+    <span>Service Planning</span><span class="menu-chevron">⌄</span>
+  </div>
+  <a href="service-planning.html">Planning Overview</a>
+  <a href="station-material.html">Station Material</a>
+  <a href="lounge-list.html">Lounge/Tenant Planning</a>
+  <a href="branch-office-planning.html">Branch Office Planning</a>
+  <a href="gaso-planning.html">GASO Planning</a>
+  <a href="planning-documents.html">Planning Documents</a>
+</div>
+
+
+<a href="data.html">Data</a>
+<a href="berita.html">Berita & Informasi</a>
+<a href="kontak.html">Hubungi Kami</a>
+<a href="admin.html" data-role-min="Admin">Admin / Pengelola</a>
+</aside><main class="main">
+<section class="hero">
+  <h2>Kegiatan & Inisiatif</h2>
+  <p>Pemantauan target, realisasi, pencapaian, dan kemajuan seluruh inisiatif Ground Experience.</p>
+</section>
+
+<div class="page-header">
+  <h2>Ringkasan Kemajuan</h2>
+  <p>Perbandingan target dan realisasi berdasarkan touch point.</p>
+</div>
+
+<div class="journey-tabs">
+  <button class="journey-tab" data-journey="" onclick="setJourneyFilter('')">Semua Journey</button>
+  <button class="journey-tab" data-journey="Pre-Journey" onclick="setJourneyFilter('Pre-Journey')">Pre-Journey</button>
+  <button class="journey-tab" data-journey="Pre-Flight" onclick="setJourneyFilter('Pre-Flight')">Pre-Flight</button>
+  <button class="journey-tab" data-journey="Post-Flight" onclick="setJourneyFilter('Post-Flight')">Post-Flight</button>
+  <button class="journey-tab" data-journey="Post-Journey" onclick="setJourneyFilter('Post-Journey')">Post-Journey</button>
+</div>
+
+<div id="initiativeCharts" class="chart-grid"></div>
+
+<div class="title">
+  <div><h3>Daftar Inisiatif</h3><div class="section-subtitle">Seluruh inisiatif Ground Experience</div></div>
+</div>
+<div class="card">
+  <div class="searchbar">
+    <input id="q" oninput="renderInitiatives()" placeholder="Cari inisiatif">
+    <select id="ft" onchange="renderInitiatives()"><option value="">Semua Touch Point</option></select>
+    <select id="fs" onchange="renderInitiatives()"><option value="">Semua Pencapaian</option><option>Below</option><option>Meet</option><option>Exceed</option></select>
+    <button class="btn secondary" onclick="exportCSV()">Unduh CSV</button>
+  </div><br>
+  <div class="title"><button class="btn" data-admin-only onclick="openInitiativeModalV224()">Tambah Inisiatif</button></div>
+  <div id="initRows" class="initiative-grid-final"></div>
+</div>
+
+<!-- Proven V224 initiative workflow restored from the working R4 reference. -->
+<div id="initiativeModalV224" class="initiative-dialog">
+  <div class="initiative-dialog-card initiative-modal-v224">
+    <button class="modal-x" onclick="closeInitiativeModalV224()">×</button>
+    <h2 id="initiativeModalTitleV224">Tambah Inisiatif</h2>
+    <p class="section-subtitle">Master inisiatif, PIC, due date, target, realisasi, dan remark.</p>
+    <input type="hidden" id="initiativeEditIdV224">
+    <form onsubmit="event.preventDefault();saveInitiativeV224()">
+      <div class="formgrid">
+        <label>Nama Inisiatif<input id="initiativeNameV224" required></label>
+        <label>Touch Point<input id="initiativeTouchpointV224" required></label>
+        <label>Airport<input id="initiativeAirportV224" placeholder="Contoh: CGK"></label>
+        <label>PIC<input id="initiativePicV224" placeholder="Nama / Unit PIC"></label>
+        <label>Journey<select id="initiativeJourneyV224"><option>Pre-Journey</option><option>Pre-Flight</option><option>Post-Flight</option><option>Post-Journey</option></select></label>
+        <label>Due Date<input id="initiativeDueDateV224" type="date"></label>
+        <label>Target (%)<input id="initiativePlanV224" type="number" min="0" max="100" step="0.01" required></label>
+        <label>Realisasi (%)<input id="initiativeRealV224" type="number" min="0" max="100" step="0.01" required></label>
+        <label class="span2">Remark<textarea id="initiativeRemarkV224" rows="4"></textarea></label>
+      </div>
+      <div class="modal-actions sticky-actions"><button class="btn">Simpan</button><button type="button" class="btn secondary" onclick="closeInitiativeModalV224()">Batal</button></div>
+    </form>
+  </div>
+</div>
+
+<div id="initiativeProgressModalV224" class="initiative-dialog">
+  <div class="initiative-dialog-card initiative-progress-modal-v224">
+    <button class="modal-x" onclick="closeInitiativeProgressV224()">×</button>
+    <h2>Update Progress</h2><p class="section-subtitle" id="initiativeProgressNameV224"></p>
+    <input type="hidden" id="initiativeProgressIdV224">
+    <form onsubmit="event.preventDefault();saveInitiativeProgressV224()">
+      <label>Realisasi (%)<input id="initiativeProgressRealV224" type="number" min="0" max="100" step="0.01" required></label>
+      <label>Remark<textarea id="initiativeProgressRemarkV224" rows="5"></textarea></label>
+      <div class="modal-actions sticky-actions"><button class="btn">Simpan Progress</button><button type="button" class="btn secondary" onclick="closeInitiativeProgressV224()">Batal</button></div>
+    </form>
+  </div>
+</div>
+
+<div id="initiativeTimelineModalV224" class="initiative-dialog">
+  <div class="initiative-dialog-card initiative-timeline-modal-v224">
+    <button class="modal-x" onclick="closeInitiativeTimelineV224()">×</button>
+    <div id="initiativeTimelineBodyV224"></div>
+  </div>
+</div>
+
+<div id="initiativeStepModalV224" class="initiative-dialog">
+  <div class="initiative-dialog-card initiative-step-modal-v224">
+    <button class="modal-x" onclick="closeInitiativeStepV224()">×</button>
+    <h2>Tambah Tahapan / Milestone</h2>
+    <input type="hidden" id="initiativeStepParentIdV224"><input type="hidden" id="initiativeStepEditIndexV224">
+    <div class="formgrid">
+      <label>Tahapan<input id="initiativeStepTitleV224" required></label><label>PIC<input id="initiativeStepPicV224"></label>
+      <label>Tipe Tahapan<select id="geV254StepType"><option value="date">Single Due Date</option><option value="period">Period</option></select></label>
+      <label>Start Date<input id="geV254StepStart" type="date"></label><label>End Date<input id="geV254StepEnd" type="date"></label>
+      <label>Due Date<input id="initiativeStepDueDateV224" type="date"></label><label>Estimasi Biaya<input id="geV254StepEstimate" type="number" min="0" step="1000"></label>
+      <label>Realisasi Biaya<input id="geV254StepActualCost" type="number" min="0" step="1000"></label>
+      <label>Status<select id="initiativeStepStatusV224"><option>Not Started</option><option>On Progress</option><option>Completed</option><option>Hold</option></select></label>
+      <label class="span2">Keterangan<textarea id="initiativeStepRemarkV224" rows="4"></textarea></label>
+    </div>
+    <div class="modal-actions sticky-actions"><button class="btn" onclick="saveInitiativeStepV224()">Simpan Tahapan</button><button class="btn secondary" onclick="closeInitiativeStepV224()">Batal</button></div>
+  </div>
+</div>
+
+<div id="initiativeDocModalV227" class="initiative-dialog">
+  <div class="initiative-dialog-card initiative-doc-modal-v227">
+    <button class="modal-x" onclick="closeInitiativeDocumentV227()">×</button><h2 id="initiativeDocModalTitleV227">Tambah Dokumen Inisiatif</h2>
+    <input type="hidden" id="initiativeDocParentIdV227"><input type="hidden" id="initiativeDocKindV227"><input type="hidden" id="initiativeDocEditIndexV227">
+    <div class="formgrid">
+      <label>Jenis Dokumen<select id="initiativeDocTypeV227"></select></label><label>Nomor / Referensi<input id="initiativeDocReferenceV227"></label>
+      <label>Unit / Penerbit<input id="initiativeDocIssuerV227"></label><label>Tanggal Dokumen<input id="initiativeDocDateV227" type="date"></label>
+      <label>Versi / Revisi<input id="initiativeDocVersionV227"></label><label>Status<select id="initiativeDocStatusV227"><option>Current</option><option>Superseded</option><option>Draft</option></select></label>
+      <label class="span2 initiative-doc-required-check-v227"><input id="initiativeDocRequiredV227" type="checkbox"> Required document</label>
+      <label class="span2">Keterangan<textarea id="initiativeDocDescriptionV227" rows="3"></textarea></label>
+      <label class="span2">Lampiran Dokumen<input id="initiativeDocFileV227" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png"><small id="initiativeDocCurrentFileV227"></small></label>
+    </div>
+    <div class="modal-actions sticky-actions"><button class="btn" onclick="saveInitiativeDocumentV227()">Simpan Dokumen</button><button class="btn secondary" onclick="closeInitiativeDocumentV227()">Batal</button></div>
+  </div>
+</div>
+</main></div>
+<footer class="footer"><b>GROUND EXPERIENCE — GARUDA INDONESIA</b><br>Portal Service Experience • Internal Ground Services Workspace</footer>
+<button id="backToTop" class="back-to-top" aria-label="Kembali ke atas" title="Kembali ke atas">↑</button>
+<script src="assets/v2554-stability.js?v=2.55.5" defer></script><script src="assets/portal-shell.js?v=10.5" defer></script></body></html>

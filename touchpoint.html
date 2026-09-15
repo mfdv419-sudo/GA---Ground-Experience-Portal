@@ -1,0 +1,70 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Touchpoint</title><script src="assets/auth.js?v=2.54.1"></script><script src="assets/data.js?v=2.54.1"></script><script src="assets/core-v257.js?v=2.57-P1.1" defer></script><script src="assets/relationships-v257.js?v=2.57-P1.2" defer></script><script src="assets/compatibility-v257.js?v=2.57-P1.7" defer></script><script src="assets/files.js?v=2.54.1"></script><script src="assets/app.js?v=2.54.1" defer></script><script src="assets/v254-project.js?v=2.54.4" defer></script><script src="assets/v2544-modal-fix.js?v=2.54.4" defer></script>
+<script>document.documentElement.classList.add("r9-boot")</script><link rel="stylesheet" href="assets/portal.css?v=10.5"></head><body id="top">
+<header class="top">
+<button id="mobileNavTriggerV233" class="mobile-nav-trigger-v233" type="button" aria-label="Buka menu utama" aria-expanded="false">☰</button>
+<div class="brand"><h1>GROUND EXPERIENCE GARUDA INDONESIA</h1><p>Ground Experience • Service Experience Portal</p></div>
+<div class="logos header-logos">
+  <img class="garuda-logo" src="assets/garuda-indonesia.png" alt="Garuda Indonesia">
+  <img class="danantara-logo" src="assets/danantara.png" alt="Danantara Indonesia">
+</div>
+<div class="session-tools">
+  <div class="session-user"><b id="sessionName"></b><span id="sessionRole"></span></div>
+  <button class="logout-btn" onclick="gxLogout()">Keluar</button>
+</div>
+</header>
+<div class="shell"><aside class="side">
+<div class="main-section" onclick="toggleSidebar()" title="Tampilkan atau sembunyikan menu utama"><span>MAIN</span><span class="main-control">≡</span></div>
+<a href="index.html">Beranda</a>
+<div class="final-nav-group"><div class="final-nav-label">Integrated Experience</div><a href="network-stations.html">Network & Station</a><a href="station-360.html">Station 360</a><a href="airport-experience-map.html">Airport Experience Map</a><a href="readiness.html">Readiness</a><a href="customer-experience.html">Customer Experience</a><a href="improvement-intake.html">Improvement</a><a href="inisiatif.html">Initiative</a><a href="budget-cost.html">Budget & Cost</a><a href="management-outcome.html">Management & Outcome</a></div>
+
+<div class="service-nav" id="serviceNav">
+  <div class="service-toggle" data-nav-toggle="service" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Layanan Garuda Indonesia">
+    <span>Layanan Garuda Indonesia</span><span class="menu-chevron">⌄</span>
+  </div>
+  <a href="touchpoint.html">Touch Point Garuda Indonesia</a>
+  <a href="standar.html">Standar Layanan Garuda Indonesia</a>
+  <a href="map.html">Peta Airport Penerbangan</a>
+</div>
+
+<div class="initiative-nav" id="initiativeNav">
+  <div class="initiative-toggle" data-nav-toggle="initiative" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Kegiatan & Inisiatif">
+    <span>Kegiatan & Inisiatif</span><span class="menu-chevron">⌄</span>
+  </div>
+<a href="calendar.html" class="calendar-project-nav-v2531">Calendar & Project Tracking</a>
+  <a href="pre-journey.html">Pre-Journey</a>
+  <a href="pre-flight.html">Pre-Flight</a>
+  <a href="post-flight.html">Post-Flight</a>
+  <a href="post-journey.html">Post-Journey</a>
+</div>
+
+<div class="planning-nav" id="planningNav">
+  <div class="planning-toggle" data-nav-toggle="planning" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Service Planning">
+    <span>Service Planning</span><span class="menu-chevron">⌄</span>
+  </div>
+  <a href="service-planning.html">Planning Overview</a>
+  <a href="station-material.html">Station Material</a>
+  <a href="lounge-list.html">Lounge/Tenant Planning</a>
+  <a href="branch-office-planning.html">Branch Office Planning</a>
+  <a href="gaso-planning.html">GASO Planning</a>
+  <a href="planning-documents.html">Planning Documents</a>
+</div>
+
+
+<a href="data.html">Data</a>
+<a href="berita.html">Berita & Informasi</a>
+<a href="kontak.html">Hubungi Kami</a>
+<a href="admin.html" data-role-min="Admin">Admin / Pengelola</a>
+</aside><main class="main">
+<section class="hero"><h2>Touch Point Garuda Indonesia</h2><p>Kondisi layanan per station/Branch Office, termasuk foto, status, dan keterangan terbaru.</p></section>
+<div class="tp-page-head"><div><h1>Touch Point & Station Condition</h1><p>Super Admin/Admin dapat memperbarui kondisi setiap Touch Point. Pilih station untuk melihat kondisi BO yang diperlukan.</p></div></div>
+<div class="tp-filters ge-card" style="padding:12px">
+<label>Journey<select id="tpJourney"><option value="">All Journey</option><option>Pre-Journey</option><option>Pre-Flight</option><option>Post-Flight</option><option>Post-Journey</option></select></label>
+<label>Station / BO<select id="tpStation"></select></label>
+<label>Cari Touch Point<input id="tpSearch" placeholder="Ketik nama Touch Point" style="margin-top:5px;height:38px;border:1px solid #ccd8e6;border-radius:7px;padding:0 10px;width:100%"></label>
+</div><div id="tpContent"></div>
+<div id="tpViewModal" class="tp-modal-backdrop"><div class="tp-modal"><h2 id="tpViewTitle"></h2><p id="tpViewMeta" class="ge-muted"></p><p id="tpViewDesc"></p><div id="tpViewPhotos" class="tp-preview"></div><div class="tp-modal-actions"><button id="tpViewClose" class="tp-btn">Tutup</button></div></div></div>
+<div id="tpEditModal" class="tp-modal-backdrop"><div class="tp-modal"><h2>Update / Revisi Touch Point</h2><div class="tp-form-grid"><label>Station<input id="tpEditStation" readonly></label><label>Touch Point<input id="tpEditName" readonly></label><label>Status<select id="tpEditStatus"><option>Not Updated</option><option>Available</option><option>Partial / Review</option><option>Not Available</option></select></label><label class="span2">Keterangan<textarea id="tpEditDesc" rows="5" placeholder="Jelaskan kondisi aktual, gap, kebutuhan, atau catatan station"></textarea></label><label class="span2">Foto Kondisi (maks. 5)<input id="tpEditFiles" type="file" accept="image/*" multiple></label><div id="tpPhotoPreview" class="tp-preview span2"></div></div><div class="tp-modal-actions"><button id="tpEditClose" class="tp-btn">Batal</button><button id="tpEditSave" class="tp-btn primary">Simpan Update</button></div></div></div></main></div>
+<script>(function(){var m=document.getElementById('tpEditModal');if(!m)return;document.body.appendChild(m);m.style.setProperty('position','fixed','important');m.style.setProperty('inset','0','important');m.style.setProperty('width','100vw','important');m.style.setProperty('height','100vh','important');m.style.setProperty('margin','0','important');m.style.setProperty('z-index','2147483000','important');m.style.setProperty('align-items','center','important');m.style.setProperty('justify-content','center','important');m.style.setProperty('padding','24px','important');var c=m.firstElementChild;if(c){c.style.setProperty('position','relative','important');c.style.setProperty('inset','auto','important');c.style.setProperty('transform','none','important');c.style.setProperty('margin','auto','important');c.style.setProperty('max-height','calc(100vh - 48px)','important');c.style.setProperty('overflow','auto','important')}})();</script>
+<footer class="footer"><b>GROUND EXPERIENCE — GARUDA INDONESIA</b><br>Portal Service Experience • Internal Ground Services Workspace</footer>
+<button id="backToTop" class="back-to-top" aria-label="Kembali ke atas" title="Kembali ke atas">↑</button>
+<script src="assets/v2554-stability.js?v=2.55.5" defer></script><script src="assets/v257-touchpoint-final.js?v=2.57-r6" defer></script><script src="assets/portal-shell.js?v=10.5" defer></script></body></html>

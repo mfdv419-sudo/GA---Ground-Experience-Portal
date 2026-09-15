@@ -1,0 +1,214 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Data</title><script src="assets/auth.js?v=2.54.1"></script><script src="assets/data.js?v=2.54.1"></script><script src="assets/core-v257.js?v=2.57-P1.1" defer></script><script src="assets/relationships-v257.js?v=2.57-P1.2" defer></script><script src="assets/compatibility-v257.js?v=2.57-P1.7" defer></script><script src="assets/files.js?v=2.54.1"></script><script src="assets/app.js?v=2.54.1" defer></script><script src="assets/v254-project.js?v=2.54.4" defer></script><script src="assets/v2544-modal-fix.js?v=2.54.4" defer></script><script>document.documentElement.classList.add("r9-boot")</script><link rel="stylesheet" href="assets/portal.css?v=10.5"></head><body id="top">
+<header class="top">
+<button id="mobileNavTriggerV233" class="mobile-nav-trigger-v233" type="button" aria-label="Buka menu utama" aria-expanded="false">☰</button>
+<div class="brand"><h1>GROUND EXPERIENCE GARUDA INDONESIA</h1><p>Ground Experience • Service Experience Portal</p></div>
+<div class="logos header-logos">
+  <img class="garuda-logo" src="assets/garuda-indonesia.png" alt="Garuda Indonesia">
+  <img class="danantara-logo" src="assets/danantara.png" alt="Danantara Indonesia">
+</div>
+<div class="session-tools">
+  <div class="session-user"><b id="sessionName"></b><span id="sessionRole"></span></div>
+  <button class="logout-btn" onclick="gxLogout()">Keluar</button>
+</div>
+</header>
+<div class="shell"><aside class="side">
+<div class="main-section" onclick="toggleSidebar()" title="Tampilkan atau sembunyikan menu utama"><span>MAIN</span><span class="main-control">≡</span></div>
+<a href="index.html">Beranda</a>
+<div class="final-nav-group"><div class="final-nav-label">Integrated Experience</div><a href="network-stations.html">Network & Station</a><a href="station-360.html">Station 360</a><a href="airport-experience-map.html">Airport Experience Map</a><a href="readiness.html">Readiness</a><a href="customer-experience.html">Customer Experience</a><a href="improvement-intake.html">Improvement</a><a href="inisiatif.html">Initiative</a><a href="budget-cost.html">Budget & Cost</a><a href="management-outcome.html">Management & Outcome</a></div>
+
+<div class="service-nav" id="serviceNav">
+  <div class="service-toggle" data-nav-toggle="service" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Layanan Garuda Indonesia">
+    <span>Layanan Garuda Indonesia</span><span class="menu-chevron">⌄</span>
+  </div>
+  <a href="touchpoint.html">Touch Point Garuda Indonesia</a>
+  <a href="standar.html">Standar Layanan Garuda Indonesia</a>
+  <a href="map.html">Peta Airport Penerbangan</a>
+</div>
+
+<div class="initiative-nav" id="initiativeNav">
+  <div class="initiative-toggle" data-nav-toggle="initiative" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Kegiatan & Inisiatif">
+    <span>Kegiatan & Inisiatif</span><span class="menu-chevron">⌄</span>
+  </div>
+<a href="calendar.html" class="calendar-project-nav-v2531">Calendar & Project Tracking</a>
+  <a href="pre-journey.html">Pre-Journey</a>
+  <a href="pre-flight.html">Pre-Flight</a>
+  <a href="post-flight.html">Post-Flight</a>
+  <a href="post-journey.html">Post-Journey</a>
+</div>
+
+<div class="planning-nav" id="planningNav">
+  <div class="planning-toggle" data-nav-toggle="planning" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Service Planning">
+    <span>Service Planning</span><span class="menu-chevron">⌄</span>
+  </div>
+  <a href="service-planning.html">Planning Overview</a>
+  <a href="station-material.html">Station Material</a>
+  <a href="lounge-list.html">Lounge/Tenant Planning</a>
+  <a href="branch-office-planning.html">Branch Office Planning</a>
+  <a href="gaso-planning.html">GASO Planning</a>
+  <a href="planning-documents.html">Planning Documents</a>
+</div>
+
+
+<a href="data.html">Data</a>
+<a href="berita.html">Berita & Informasi</a>
+<a href="kontak.html">Hubungi Kami</a>
+<a href="admin.html" data-role-min="Admin">Admin / Pengelola</a>
+</aside><main class="main"><div class=hero><h2>Data Management</h2><p>Master data airport dan personil sebagai referensi layanan dan initiative.</p></div><div class="grid3 access-role-cards">
+<div class="card"><h3>Super Admin / Admin</h3><p>Kelola master data, akun, hak akses, dokumen, dan data operasional sesuai kewenangan.</p></div>
+<div class="card"><h3>Branch Office / Staff</h3><p>Akses dibatasi berdasarkan Airport/Area atau TAB yang diberikan.</p></div>
+<div class="card"><h3>Lounge Staff</h3><p>Terbatas pada Lounge Access dan Lounge Visitor untuk lounge/airport yang ditugaskan.</p></div>
+</div>
+
+
+<div class="title">
+  <div>
+    <h3>Database Airport</h3>
+    <div class="section-subtitle">Master Airport/Branch Office terbaru. Visitor Lounge, Kontrak, Pending, dan GM ditarik otomatis dari modul terkait.</div>
+  </div>
+  <div class="bulk-action-group" data-admin-only>
+    <button class="btn" onclick="openAirportModalV231()">Tambah Database Airport</button>
+    <a class="btn secondary" href="templates/Template_Database_Airport.xlsx" download>Unduh Template</a>
+    <button class="btn secondary" onclick="openBulkImportV223('airport')">Upload Data</button>
+  </div>
+</div>
+
+<div class="card airport-master-summary">
+  <div><span>Total Airport / Branch Office</span><b id="airportMasterTotal">0</b></div>
+  <div><span>Active</span><b id="airportMasterActive">0</b></div>
+  <div><span>Inactive</span><b id="airportMasterInactive">0</b></div>
+  <div><span>Total Kontrak Lounge</span><b id="airportMasterContracts">0</b></div>
+  <div><span>Pending Contract</span><b id="airportMasterPending">0</b></div>
+</div>
+
+<div class="card data-filter-card">
+  <div class="data-filter-grid airport-filter-grid">
+    <input id="airportSearch" placeholder="Cari Airport / Kota / GM" oninput="renderAirports()">
+    <select id="airportWilayahFilter" onchange="renderAirports()"><option value="">Semua Wilayah</option></select>
+    <select id="airportRegionFilter" onchange="renderAirports()"><option value="">Semua Region</option></select>
+    <select id="airportStatusFilter" onchange="renderAirports()"><option value="">Semua Status</option><option>Active</option><option>Inactive</option></select>
+  </div>
+</div>
+
+<div class="card table-scroll">
+<table class="airport-master-table">
+<thead><tr>
+  <th>No</th>
+  <th>Airport / Branch Office</th>
+  <th>Kota</th>
+  <th>Wilayah</th>
+  <th>Region</th>
+  <th>Status</th>
+  <th>Nama GM</th>
+  <th>Visitor Lounge</th>
+  <th>Kontrak</th>
+  <th>Pending</th><th data-admin-only>Kelola</th>
+</tr></thead>
+<tbody id="airportRows"></tbody>
+</table>
+</div>
+<div class="title" id="personnel-airport">
+  <div>
+    <h3>Data Personil Airport & Head Office</h3>
+    <div class="section-subtitle">Master personil berdasarkan data terbaru. Record HO tetap tersedia sebagai referensi, namun tidak masuk klasifikasi Branch Office pada dashboard.</div>
+  </div>
+  <div class="bulk-action-group" data-admin-only>
+    <button class="btn" onclick="openPersonnelModal()">Tambah Personil</button>
+    <a class="btn secondary" href="templates/Template_Data_Personil.xlsx" download>Unduh Template</a>
+    <button class="btn secondary" onclick="openBulkImportV223('personnel')">Upload Data</button>
+  </div>
+</div>
+
+<div class="card data-filter-card">
+  <div class="data-filter-grid personnel-filter-grid">
+    <input id="personnelSearch" placeholder="Cari nama / posisi / email / SITA Code" oninput="renderPersonnel()">
+    <select id="personnelAirportFilter" onchange="renderPersonnel()"><option value="">Semua Airport</option></select>
+    <select id="personnelFunctionFilter" onchange="renderPersonnel()"><option value="">Semua Fungsi</option></select>
+    <input id="personnelPositionFilter" placeholder="Posisi / jabatan" oninput="renderPersonnel()">
+  </div>
+</div>
+
+<div class="card table-scroll">
+<table class="personnel-table">
+<thead><tr>
+  <th>No</th><th>No. Pegawai</th><th>Nama</th><th>Position</th><th>SITA Code</th><th>Airport</th><th>Fungsi</th><th>Email</th><th data-admin-only>Kelola</th>
+</tr></thead>
+<tbody id="personnelRows"></tbody>
+</table>
+</div>
+
+
+<div id="airportModalV231" class="modal-backdrop"><div class="modal-card airport-modal-v231">
+  <button class="modal-x" onclick="closeAirportModalV231()">×</button>
+  <h2 id="airportModalTitleV231">Tambah Database Airport</h2>
+  <input id="airportEditIdV231" type="hidden">
+  <div class="formgrid">
+    <label>Airport Code<input id="airportCodeV231" maxlength="5" required></label>
+    <label>City<input id="airportCityV231" required></label>
+    <label class="span2">Airport Name<input id="airportNameV231"></label>
+    <label>Wilayah<select id="airportWilayahV231"><option>Domestik</option><option>Asia</option><option>Asia Pacific</option><option>Middle East</option><option>Europe</option></select></label>
+    <label>Region<input id="airportRegionV231" placeholder="WEST / EAST / INT"></label>
+    <label>Status<select id="airportStatusV231"><option>Active</option><option>Inactive</option></select></label>
+    <label>Latitude<input id="airportLatV231" type="number" step="0.000001"></label>
+    <label>Longitude<input id="airportLonV231" type="number" step="0.000001"></label>
+  </div>
+  <div class="modal-actions sticky-actions"><button class="btn" onclick="saveAirportV231()">Simpan</button><button class="btn secondary" onclick="closeAirportModalV231()">Batal</button></div>
+</div></div>
+
+<div id="personnelModal" class="modal-backdrop">
+<div class="modal-card personnel-modal-card">
+  <button class="modal-x" onclick="closePersonnelModal()">×</button>
+  <h2 id="personnelModalTitle">Tambah Personil</h2>
+  <form id="personnelForm" onsubmit="event.preventDefault();savePersonnel()">
+    <input id="personnelEditId" type="hidden">
+    <div class="formgrid">
+      <label>No. Pegawai<input id="personnelEmployeeNo"></label>
+      <label>Nama<input id="personnelName" required></label>
+      <label>Position<input id="personnelPosition" required></label>
+      <label>SITA Code<input id="personnelSitaCode"></label>
+      <label>Airport<input id="personnelAirport" required></label>
+      <label>Fungsi<input id="personnelFunction" required placeholder="GM / KK / SS / SV / GH"></label>
+      <label>Email<input id="personnelEmail" type="email"></label>
+    </div>
+    <div class="modal-actions sticky-actions">
+      <button class="btn">Simpan</button>
+      <button type="button" class="btn secondary" onclick="closePersonnelModal()">Batal</button>
+    </div>
+  </form>
+</div>
+</div>
+
+<div class="title" id="documents"><div><h3>Dokumen & Lampiran</h3><div class="section-subtitle">Repository dokumen yang akan tampil pada Dashboard Beranda.</div></div></div>
+<div class="card" data-role-min="Admin">
+ <form id="documentForm" onsubmit="event.preventDefault();addPortalDocument()">
+  <div class="formgrid">
+   <input id="docTitle" required placeholder="Judul Dokumen">
+   <input id="docCategory" required placeholder="Kategori">
+   <select id="docSource"><option>Data</option><option>Kegiatan & Inisiatif</option><option>Service Experience</option><option>Lounge</option></select>
+   <input id="docFile" type="file" required>
+  </div><br>
+  <textarea id="docNote" placeholder="Keterangan dokumen"></textarea><br><br>
+  <button class="btn">Unggah Dokumen</button>
+ </form>
+</div>
+<div class="card data-filter-card">
+<div class="data-filter-grid">
+  <input id="docAdminSearch" placeholder="Cari dokumen / file" oninput="renderDocumentsAdmin()">
+  <select id="docAdminCategory" onchange="renderDocumentsAdmin()"><option value="">Semua Kategori</option></select>
+  <select id="docAdminSource" onchange="renderDocumentsAdmin()"><option value="">Semua Sumber</option></select>
+</div></div>
+<div class="card"><div id="documentAdminList" class="document-list"></div></div>
+
+<div id="bulkImportModalV223" class="modal-backdrop"><div class="modal-card bulk-import-modal-v223">
+<button class="modal-x" onclick="closeBulkImportV223()">×</button>
+<span class="bulk-import-eyebrow">Bulk Data Import</span><h2 id="bulkImportTitleV223">Upload Data</h2>
+<p id="bulkImportHelpV223" class="section-subtitle"></p>
+<div class="bulk-import-dropzone"><input id="bulkImportFileV223" type="file" accept=".xlsx,.csv" onchange="previewBulkImportV223(this.files[0])"><div><b>Pilih file Excel (.xlsx) atau CSV</b><span>Gunakan template agar nama kolom dikenali otomatis.</span></div></div>
+<div id="bulkImportPreviewV223" class="bulk-import-preview-v223"></div>
+<div class="modal-actions sticky-actions"><button id="bulkImportConfirmV223" class="btn" onclick="confirmBulkImportV231()" disabled>Import Data</button><button class="btn secondary" onclick="closeBulkImportV223()">Batal</button></div>
+</div></div>
+
+</main></div>
+<script>(function(){var m=document.getElementById('airportModalV231');if(!m)return;document.body.appendChild(m);m.style.setProperty('position','fixed','important');m.style.setProperty('inset','0','important');m.style.setProperty('width','100vw','important');m.style.setProperty('height','100vh','important');m.style.setProperty('margin','0','important');m.style.setProperty('z-index','2147483000','important');m.style.setProperty('align-items','center','important');m.style.setProperty('justify-content','center','important');m.style.setProperty('padding','24px','important');var c=m.firstElementChild;if(c){c.style.setProperty('position','relative','important');c.style.setProperty('inset','auto','important');c.style.setProperty('transform','none','important');c.style.setProperty('margin','auto','important');c.style.setProperty('max-height','calc(100vh - 48px)','important');c.style.setProperty('overflow','auto','important')}})();</script>
+<footer class="footer"><b>GROUND EXPERIENCE — GARUDA INDONESIA</b><br>Portal Service Experience • Internal Ground Services Workspace</footer>
+<button id="backToTop" class="back-to-top" aria-label="Kembali ke atas" title="Kembali ke atas">↑</button>
+<script src="assets/v2554-stability.js?v=2.55.5" defer></script><script src="assets/portal-shell.js?v=10.5" defer></script></body></html>

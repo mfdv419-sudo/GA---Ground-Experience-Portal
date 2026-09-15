@@ -1,0 +1,163 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GASO Planning</title><script src="assets/auth.js?v=2.54.1"></script><script src="assets/data.js?v=2.54.1"></script><script src="assets/core-v257.js?v=2.57-P1.1" defer></script><script src="assets/relationships-v257.js?v=2.57-P1.2" defer></script><script src="assets/compatibility-v257.js?v=2.57-P1.7" defer></script><script src="assets/files.js?v=2.54.1"></script><script src="assets/app.js?v=2.54.1" defer></script><script src="assets/v254-project.js?v=2.54.4" defer></script><script src="assets/v2544-modal-fix.js?v=2.54.4" defer></script><script>document.documentElement.classList.add("r9-boot")</script><link rel="stylesheet" href="assets/portal.css?v=10.5"></head><body id="top">
+<header class="top">
+<button id="mobileNavTriggerV233" class="mobile-nav-trigger-v233" type="button" aria-label="Buka menu utama" aria-expanded="false">☰</button>
+<div class="brand"><h1>GROUND EXPERIENCE GARUDA INDONESIA</h1><p>Ground Experience • Service Experience Portal</p></div>
+<div class="logos header-logos">
+  <img class="garuda-logo" src="assets/garuda-indonesia.png" alt="Garuda Indonesia">
+  <img class="danantara-logo" src="assets/danantara.png" alt="Danantara Indonesia">
+</div>
+<div class="session-tools">
+  <div class="session-user"><b id="sessionName"></b><span id="sessionRole"></span></div>
+  <button class="logout-btn" onclick="gxLogout()">Keluar</button>
+</div>
+</header>
+<div class="shell"><aside class="side">
+<div class="main-section" onclick="toggleSidebar()" title="Tampilkan atau sembunyikan menu utama"><span>MAIN</span><span class="main-control">≡</span></div>
+<a href="index.html">Beranda</a>
+<div class="final-nav-group"><div class="final-nav-label">Integrated Experience</div><a href="network-stations.html">Network & Station</a><a href="station-360.html">Station 360</a><a href="airport-experience-map.html">Airport Experience Map</a><a href="readiness.html">Readiness</a><a href="customer-experience.html">Customer Experience</a><a href="improvement-intake.html">Improvement</a><a href="inisiatif.html">Initiative</a><a href="budget-cost.html">Budget & Cost</a><a href="management-outcome.html">Management & Outcome</a></div>
+
+<div class="service-nav" id="serviceNav">
+  <div class="service-toggle" data-nav-toggle="service" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Layanan Garuda Indonesia">
+    <span>Layanan Garuda Indonesia</span><span class="menu-chevron">⌄</span>
+  </div>
+  <a href="touchpoint.html">Touch Point Garuda Indonesia</a>
+  <a href="standar.html">Standar Layanan Garuda Indonesia</a>
+  <a href="map.html">Peta Airport Penerbangan</a>
+</div>
+
+<div class="initiative-nav" id="initiativeNav">
+  <div class="initiative-toggle" data-nav-toggle="initiative" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Kegiatan & Inisiatif">
+    <span>Kegiatan & Inisiatif</span><span class="menu-chevron">⌄</span>
+  </div>
+<a href="calendar.html" class="calendar-project-nav-v2531">Calendar & Project Tracking</a>
+  <a href="pre-journey.html">Pre-Journey</a>
+  <a href="pre-flight.html">Pre-Flight</a>
+  <a href="post-flight.html">Post-Flight</a>
+  <a href="post-journey.html">Post-Journey</a>
+</div>
+
+<div class="planning-nav" id="planningNav">
+  <div class="planning-toggle" data-nav-toggle="planning" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Service Planning">
+    <span>Service Planning</span><span class="menu-chevron">⌄</span>
+  </div>
+  <a href="service-planning.html">Planning Overview</a>
+  <a href="station-material.html">Station Material</a>
+  <a href="lounge-list.html">Lounge/Tenant Planning</a>
+  <a href="branch-office-planning.html">Branch Office Planning</a>
+  <a href="gaso-planning.html">GASO Planning</a>
+  <a href="planning-documents.html">Planning Documents</a>
+</div>
+
+
+<a href="data.html">Data</a>
+<a href="berita.html">Berita & Informasi</a>
+<a href="kontak.html">Hubungi Kami</a>
+<a href="admin.html" data-role-min="Admin">Admin / Pengelola</a>
+</aside><main class="main">
+<section class="hero">
+  <h2>GASO Planning</h2>
+  <p>Planning workspace untuk Garuda Sales Office: master office, service support, dan planning service.</p>
+</section>
+
+<div class="grid3 gaso-planning-grid gaso-selector-grid-v231">
+  <button class="card gaso-placeholder-card gaso-selector-v231 active" onclick="showGasoPanelV231('master',this)">
+    <span>GASO Master</span><h3>Office & Location</h3>
+    <p>Office profile, location, status, PIC, contact, dan reference dasar GASO.</p>
+    <b class="selector-action">Lihat GASO Master</b>
+  </button>
+  <button class="card gaso-placeholder-card gaso-selector-v231" onclick="showGasoPanelV231('support',this)">
+    <span>Service Support</span><h3>Facility & Resources</h3>
+    <p>Facility/service, provider, periode layanan, status, dokumen, dan remarks.</p>
+    <b class="selector-action">Lihat Service Support</b>
+  </button>
+  <button class="card gaso-placeholder-card gaso-selector-v231" onclick="showGasoPanelV231('planning',this)">
+    <span>Planning Service</span><h3>Planning & Contract</h3>
+    <p>Planning item, vendor/partner, budget, due date, status, dan supporting document.</p>
+    <b class="selector-action">Lihat Planning Service</b>
+  </button>
+</div>
+
+<section id="gasoPanelMasterV231" class="gaso-panel-v231">
+  <div class="title">
+    <div><h3>GASO Master</h3><div class="section-subtitle">Master Garuda Sales Office.</div></div>
+    <div class="bulk-action-group" data-admin-only>
+      <button class="btn" onclick="openGasoModalV231('master')">Tambah GASO</button>
+      <a class="btn secondary" href="templates/Template_GASO_Master.xlsx" download>Unduh Template</a>
+      <button class="btn secondary" onclick="openBulkImportV223('gaso-master')">Upload Data</button>
+    </div>
+  </div>
+  <div class="card data-filter-card"><div class="data-filter-grid">
+    <input id="gasoMasterSearchV231" placeholder="Cari GASO / kota / PIC" oninput="renderGasoMasterV231()">
+    <select id="gasoMasterRegionV231" onchange="renderGasoMasterV231()"><option value="">Semua Region</option></select>
+    <select id="gasoMasterStatusV231" onchange="renderGasoMasterV231()"><option value="">Semua Status</option><option>Active</option><option>Inactive</option></select>
+  </div></div>
+  <div class="card table-scroll"><table class="planning-table"><thead><tr>
+    <th>No</th><th>GASO Code</th><th>Office Name</th><th>City</th><th>Region</th><th>Address</th><th>Status</th><th>PIC</th><th>Contact</th><th>Remarks</th><th data-admin-only>Kelola</th>
+  </tr></thead><tbody id="gasoMasterRowsV231"></tbody></table><div id="gasoMasterEmptyV231"></div></div>
+</section>
+
+<section id="gasoPanelSupportV231" class="gaso-panel-v231" style="display:none">
+  <div class="title">
+    <div><h3>Service Support</h3><div class="section-subtitle">Facility & resources yang mendukung operasi GASO.</div></div>
+    <div class="bulk-action-group" data-admin-only>
+      <button class="btn" onclick="openGasoModalV231('support')">Tambah Service Support</button>
+      <a class="btn secondary" href="templates/Template_GASO_Service_Support.xlsx" download>Unduh Template</a>
+      <button class="btn secondary" onclick="openBulkImportV223('gaso-support')">Upload Data</button>
+    </div>
+  </div>
+  <div class="card data-filter-card"><div class="data-filter-grid">
+    <input id="gasoSupportSearchV231" placeholder="Cari GASO / facility / provider" oninput="renderGasoSupportV231()">
+    <select id="gasoSupportStatusV231" onchange="renderGasoSupportV231()"><option value="">Semua Status</option></select>
+    <input id="gasoSupportProviderV231" placeholder="Provider" oninput="renderGasoSupportV231()">
+  </div></div>
+  <div class="card table-scroll"><table class="planning-table"><thead><tr>
+    <th>No</th><th>GASO Code</th><th>Facility / Service</th><th>Provider</th><th>Start</th><th>End</th><th>Status</th><th>Document / Reference</th><th>Remarks</th><th data-admin-only>Kelola</th>
+  </tr></thead><tbody id="gasoSupportRowsV231"></tbody></table><div id="gasoSupportEmptyV231"></div></div>
+</section>
+
+<section id="gasoPanelPlanningV231" class="gaso-panel-v231" style="display:none">
+  <div class="title">
+    <div><h3>Planning Service</h3><div class="section-subtitle">Planning item, budget, vendor/partner, due date, dan supporting document.</div></div>
+    <div class="bulk-action-group" data-admin-only>
+      <button class="btn" onclick="openGasoModalV231('planning')">Tambah Planning Service</button>
+      <a class="btn secondary" href="templates/Template_GASO_Planning_Service.xlsx" download>Unduh Template</a>
+      <button class="btn secondary" onclick="openBulkImportV223('gaso-planning')">Upload Data</button>
+    </div>
+  </div>
+  <div class="card data-filter-card"><div class="data-filter-grid">
+    <input id="gasoPlanningSearchV231" placeholder="Cari planning item / GASO / vendor" oninput="renderGasoPlanningV231()">
+    <select id="gasoPlanningCategoryV231" onchange="renderGasoPlanningV231()"><option value="">Semua Category</option></select>
+    <select id="gasoPlanningStatusV231" onchange="renderGasoPlanningV231()"><option value="">Semua Status</option></select>
+  </div></div>
+  <div class="card table-scroll"><table class="planning-table"><thead><tr>
+    <th>No</th><th>GASO Code</th><th>Planning Item</th><th>Category</th><th>Vendor / Partner</th><th>Budget</th><th>Due Date</th><th>Status</th><th>Document / Reference</th><th>Remarks</th><th data-admin-only>Kelola</th>
+  </tr></thead><tbody id="gasoPlanningRowsV231"></tbody></table><div id="gasoPlanningEmptyV231"></div></div>
+</section>
+
+<div id="gasoModalV231" class="modal-backdrop"><div class="modal-card gaso-modal-v231">
+  <button class="modal-x" onclick="closeGasoModalV231()">×</button>
+  <h2 id="gasoModalTitleV231">GASO Record</h2>
+  <div id="gasoModalFormV231"></div>
+</div></div>
+
+<div id="bulkImportModalV223" class="modal-backdrop">
+  <div class="modal-card bulk-import-modal-v223">
+    <button class="modal-x" onclick="closeBulkImportV223()">×</button>
+    <span class="bulk-import-eyebrow">Bulk Data Import</span>
+    <h2 id="bulkImportTitleV223">Upload Data</h2>
+    <p id="bulkImportHelpV223" class="section-subtitle"></p>
+    <div class="bulk-import-dropzone">
+      <input id="bulkImportFileV223" type="file" accept=".xlsx,.csv" onchange="previewBulkImportV223(this.files[0])">
+      <div><b>Pilih file Excel (.xlsx) atau CSV</b><span>Gunakan template agar nama kolom dikenali otomatis.</span></div>
+    </div>
+    <div id="bulkImportPreviewV223" class="bulk-import-preview-v223"></div>
+    <div class="modal-actions sticky-actions">
+      <button id="bulkImportConfirmV223" class="btn" onclick="confirmBulkImportV231()" disabled>Import Data</button>
+      <button type="button" class="btn secondary" onclick="closeBulkImportV223()">Batal</button>
+    </div>
+  </div>
+</div>
+</main></div>
+<footer class="footer"><b>GROUND EXPERIENCE — GARUDA INDONESIA</b><br>Portal Service Experience • Internal Ground Services Workspace</footer>
+<button id="backToTop" class="back-to-top" aria-label="Kembali ke atas" title="Kembali ke atas">↑</button>
+<script src="assets/v2554-stability.js?v=2.55.5" defer></script><script src="assets/portal-shell.js?v=10.5" defer></script></body></html>

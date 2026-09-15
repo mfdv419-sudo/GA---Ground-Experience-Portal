@@ -1,0 +1,230 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Branch Office Planning</title><script src="assets/auth.js?v=2.54.1"></script><script src="assets/data.js?v=2.54.1"></script><script src="assets/core-v257.js?v=2.57-P1.1" defer></script><script src="assets/relationships-v257.js?v=2.57-P1.2" defer></script><script src="assets/compatibility-v257.js?v=2.57-P1.7" defer></script><script src="assets/files.js?v=2.54.1"></script><script src="assets/app.js?v=2.54.1" defer></script><script src="assets/v254-project.js?v=2.54.4" defer></script><script src="assets/v2544-modal-fix.js?v=2.54.4" defer></script><script>document.documentElement.classList.add("r9-boot")</script><link rel="stylesheet" href="assets/portal.css?v=10.5"></head><body id="top">
+<header class="top">
+<button id="mobileNavTriggerV233" class="mobile-nav-trigger-v233" type="button" aria-label="Buka menu utama" aria-expanded="false">☰</button>
+<div class="brand"><h1>GROUND EXPERIENCE GARUDA INDONESIA</h1><p>Ground Experience • Service Experience Portal</p></div>
+<div class="logos header-logos">
+  <img class="garuda-logo" src="assets/garuda-indonesia.png" alt="Garuda Indonesia">
+  <img class="danantara-logo" src="assets/danantara.png" alt="Danantara Indonesia">
+</div>
+<div class="session-tools">
+  <div class="session-user"><b id="sessionName"></b><span id="sessionRole"></span></div>
+  <button class="logout-btn" onclick="gxLogout()">Keluar</button>
+</div>
+</header>
+<div class="shell"><aside class="side">
+<div class="main-section" onclick="toggleSidebar()" title="Tampilkan atau sembunyikan menu utama"><span>MAIN</span><span class="main-control">≡</span></div>
+<a href="index.html">Beranda</a>
+<div class="final-nav-group"><div class="final-nav-label">Integrated Experience</div><a href="network-stations.html">Network & Station</a><a href="station-360.html">Station 360</a><a href="airport-experience-map.html">Airport Experience Map</a><a href="readiness.html">Readiness</a><a href="customer-experience.html">Customer Experience</a><a href="improvement-intake.html">Improvement</a><a href="inisiatif.html">Initiative</a><a href="budget-cost.html">Budget & Cost</a><a href="management-outcome.html">Management & Outcome</a></div>
+
+<div class="service-nav" id="serviceNav">
+  <div class="service-toggle" data-nav-toggle="service" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Layanan Garuda Indonesia">
+    <span>Layanan Garuda Indonesia</span><span class="menu-chevron">⌄</span>
+  </div>
+  <a href="touchpoint.html">Touch Point Garuda Indonesia</a>
+  <a href="standar.html">Standar Layanan Garuda Indonesia</a>
+  <a href="map.html">Peta Airport Penerbangan</a>
+</div>
+
+<div class="initiative-nav" id="initiativeNav">
+  <div class="initiative-toggle" data-nav-toggle="initiative" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Kegiatan & Inisiatif">
+    <span>Kegiatan & Inisiatif</span><span class="menu-chevron">⌄</span>
+  </div>
+<a href="calendar.html" class="calendar-project-nav-v2531">Calendar & Project Tracking</a>
+  <a href="pre-journey.html">Pre-Journey</a>
+  <a href="pre-flight.html">Pre-Flight</a>
+  <a href="post-flight.html">Post-Flight</a>
+  <a href="post-journey.html">Post-Journey</a>
+</div>
+
+<div class="planning-nav" id="planningNav">
+  <div class="planning-toggle" data-nav-toggle="planning" role="button" tabindex="0" aria-expanded="true" title="Buka atau tutup menu Service Planning">
+    <span>Service Planning</span><span class="menu-chevron">⌄</span>
+  </div>
+  <a href="service-planning.html">Planning Overview</a>
+  <a href="station-material.html">Station Material</a>
+  <a href="lounge-list.html">Lounge/Tenant Planning</a>
+  <a href="branch-office-planning.html">Branch Office Planning</a>
+  <a href="gaso-planning.html">GASO Planning</a>
+  <a href="planning-documents.html">Planning Documents</a>
+</div>
+
+
+<a href="data.html">Data</a>
+<a href="berita.html">Berita & Informasi</a>
+<a href="kontak.html">Hubungi Kami</a>
+<a href="admin.html" data-role-min="Admin">Admin / Pengelola</a>
+</aside><main class="main">
+<section class="hero">
+  <h2>Branch Office Planning</h2>
+  <p>Planning reference untuk lounge & service procurement, space & building, serta airport systems pada seluruh Branch Office.</p>
+</section>
+
+<div class="grid3 bo-planning-selector-grid">
+  <button class="card bo-planning-selector active" onclick="showBOPlanningPanel('lounge',this)">
+    <h3>Layanan Lounge & Service Procurement</h3>
+    <p>Contract coverage, vendor/service provider, price per pax, budget approval, dan supporting document.</p>
+    <span class="selector-action">Lihat Layanan Lounge & Service Procurement</span>
+  </button>
+  <button class="card bo-planning-selector" onclick="showBOPlanningPanel('space',this)">
+    <h3>Space & Building</h3>
+    <p>Branch Office space portfolio, provider, area, function, contract period, dan annual commitment.</p>
+    <span class="selector-action">Lihat Space & Building</span>
+  </button>
+  <button class="card bo-planning-selector" onclick="showBOPlanningPanel('systems',this)">
+    <h3>Airport Systems</h3>
+    <p>CUTE, CUPPS, terminal equipment, provider, availability, dan related agreement.</p>
+    <span class="selector-action">Lihat Airport Systems</span>
+  </button>
+</div>
+
+<section id="boPlanningPanelLounge" class="bo-planning-panel">
+  <div class="title">
+    <div><h3>Layanan Lounge & Service Procurement</h3><div class="section-subtitle">Planning view gabungan Lounge/Tenant Master serta service procurement Branch Office seperti SGHA dan service lainnya.</div></div>
+    <div class="bulk-action-group" data-admin-only>
+      <button class="btn" onclick="openServiceProcurementModalV243()">Tambah Service</button>
+      <a class="btn secondary" href="templates/Template_Service_Procurement.csv" download>Unduh Template</a>
+      <button class="btn secondary" onclick="openBulkImportV223('service-procurement-v243')">Upload Data</button>
+    </div>
+  </div>
+  <div class="planning-snapshot-grid procurement-kpis">
+    <div class="card snapshot-kpi"><span>Layanan / Provider</span><b id="procLoungeTotal">0</b><small>Provider/facility</small></div>
+    <div class="card snapshot-kpi"><span>Contract Covered</span><b id="procContractCovered">0</b><small>Valid & within period</small></div>
+    <div class="card snapshot-kpi"><span>Follow-up</span><b id="procContractPending">0</b><small>Contract/document follow-up</small></div>
+    <div class="card snapshot-kpi"><span>Budget Approval</span><b id="procBudgetAvailable">0</b><small>Supporting approval linked</small></div>
+  </div>
+  <div class="card data-filter-card"><div class="data-filter-grid">
+    <input id="procSearch" placeholder="Cari airport / service / provider" oninput="renderLoungeProcurement()">
+    <select id="procAirportFilter" onchange="renderLoungeProcurement()"><option value="">Semua Airport</option></select>
+    <select id="procCategoryFilterV243" onchange="renderLoungeProcurement()"><option value="">Semua Kategori Layanan</option></select>
+    <select id="procContractFilter" onchange="renderLoungeProcurement()"><option value="">Semua Contract Status</option><option value="covered">Covered</option><option value="followup">Follow-up</option></select>
+  </div></div>
+  <div class="card table-scroll"><table class="planning-table"><thead><tr>
+    <th>No</th><th>Airport</th><th>Kategori Layanan</th><th>Service / Provider</th><th>Harga / Pax</th><th>Contract Period</th><th>Contract Status</th><th>Budget Approval</th><th>Supporting Document</th><th data-admin-only>Kelola</th>
+  </tr></thead><tbody id="loungeProcurementRows"></tbody></table></div>
+</section>
+
+<section id="boPlanningPanelSpace" class="bo-planning-panel" style="display:none">
+  <div class="title"><div><h3>Space & Building</h3><div class="section-subtitle">Planning portfolio untuk sewa ruang Branch Office dan airport support facility.</div></div>
+    <div class="bulk-action-group" data-admin-only>
+      <button class="btn" onclick="openPlanningRecordModal('space')">Tambah Sewa Ruang</button>
+      <a class="btn secondary" href="templates/Template_Space_Building.csv" download>Unduh Template</a>
+      <button class="btn secondary" onclick="openBulkImportV223('space')">Upload Data</button>
+    </div>
+  </div>
+  <div class="planning-snapshot-grid">
+    <div class="card snapshot-kpi"><span>Leased Location</span><b id="spaceTotal">0</b><small>Total location</small></div>
+    <div class="card snapshot-kpi"><span>Total Area</span><b id="spaceArea">0 m²</b><small>Recorded area</small></div>
+    <div class="card snapshot-kpi"><span>Annual Commitment</span><b id="spaceCommitment">-</b><small>Local currency by record</small></div>
+    <div class="card snapshot-kpi"><span>Expiring</span><b id="spaceExpiring">0</b><small>≤ 5 months</small></div>
+  </div>
+  <div class="card data-filter-card"><div class="data-filter-grid">
+    <input id="spaceSearch" placeholder="Cari airport / provider / location" oninput="renderBOSpaces()">
+    <select id="spaceAirportFilter" onchange="renderBOSpaces()"><option value="">Semua Airport</option></select>
+    <select id="spaceFunctionFilter" onchange="renderBOSpaces()"><option value="">Semua Function</option></select>
+    <select id="spaceStatusFilter" onchange="renderBOSpaces()"><option value="">Semua Status</option></select>
+  </div></div>
+  <div class="card table-scroll"><table class="planning-table"><thead><tr>
+    <th>No</th><th>Airport</th><th>Area / Location</th><th>Function</th><th>Size (m²)</th><th>Harga / m² / Bulan</th><th>Provider</th><th>Mulai</th><th>Berakhir</th><th>Annual Cost</th><th>Status</th><th>Document</th><th data-admin-only>Kelola</th>
+  </tr></thead><tbody id="boSpaceRows"></tbody></table><div id="boSpaceEmpty"></div></div>
+</section>
+
+<section id="boPlanningPanelSystems" class="bo-planning-panel" style="display:none">
+  <div class="title">
+    <div><h3>Airport Systems</h3><div class="section-subtitle">Master sementara CUTE & CUPPS berdasarkan daftar Airport Systems terbaru.</div></div>
+    <div class="bulk-action-group" data-admin-only>
+      <button class="btn" onclick="openAirportSystemModalV231()">Tambah Airport System</button>
+      <a class="btn secondary" href="templates/Template_Airport_Systems_V2.xlsx" download>Unduh Template</a>
+      <button class="btn secondary" onclick="openBulkImportV223('airport-system-v231')">Upload Data</button>
+    </div>
+  </div>
+  <div class="planning-snapshot-grid">
+    <div class="card snapshot-kpi"><span>Record Airport / Area</span><b id="systemTotalV231">0</b><small>Daftar CUTE & CUPPS</small></div>
+    <div class="card snapshot-kpi"><span>Kiosk Tersedia</span><b id="systemKioskV231">0</b><small>Kiosk-K tersedia</small></div>
+    <div class="card snapshot-kpi"><span>SBD Tersedia</span><b id="systemSbdV231">0</b><small>Self Baggage Drop</small></div>
+    <div class="card snapshot-kpi"><span>Provider MCO</span><b id="systemMcoV231">0</b><small>Record provider MCO</small></div>
+  </div>
+  <div class="card data-filter-card"><div class="data-filter-grid">
+    <input id="systemSearch" placeholder="Cari airport / provider / equipment" oninput="renderAirportSystems()">
+    <select id="systemAirportFilter" onchange="renderAirportSystems()"><option value="">Semua Airport</option></select>
+    <select id="systemProviderFilterV231" onchange="renderAirportSystems()"><option value="">Semua Provider</option></select>
+    <select id="systemAreaFilterV231" onchange="renderAirportSystems()"><option value="">Semua Area</option></select>
+  </div></div>
+  <div class="card table-scroll"><table class="planning-table airport-system-table-v231"><thead><tr>
+    <th>No</th><th>Airport</th><th>SBD</th><th>Kiosk-K</th><th>Check-in</th><th>Boarding Gate</th><th>Transfer Desk</th><th>Provider</th><th>Area</th><th>Remarks</th><th data-admin-only>Kelola</th>
+  </tr></thead><tbody id="airportSystemRows"></tbody></table><div id="airportSystemEmpty"></div></div>
+</section>
+
+<div id="airportSystemModalV231" class="modal-backdrop"><div class="modal-card airport-system-modal-v231">
+<button class="modal-x" onclick="closeAirportSystemModalV231()">×</button><h2 id="airportSystemModalTitleV231">Tambah Airport System</h2><input id="airportSystemEditIdV231" type="hidden">
+<div class="formgrid">
+<label>Airport<input id="airportSystemAirportV231" required></label>
+<label>Provider<input id="airportSystemProviderV231"></label>
+<label>SBD<input id="airportSystemSbdV231"></label><label>Kiosk-K<input id="airportSystemKioskV231"></label>
+<label class="span2">Check-in<textarea id="airportSystemCheckinV231" rows="2"></textarea></label>
+<label class="span2">Boarding Gate<textarea id="airportSystemGateV231" rows="2"></textarea></label>
+<label>Transfer Desk<input id="airportSystemTransferV231"></label><label>Area<input id="airportSystemAreaV231"></label>
+<label class="span2">Remarks<textarea id="airportSystemRemarksV231" rows="3"></textarea></label>
+</div><div class="modal-actions sticky-actions"><button class="btn" onclick="saveAirportSystemV231()">Simpan</button><button class="btn secondary" onclick="closeAirportSystemModalV231()">Batal</button></div>
+</div></div>
+
+<div id="planningRecordModal" class="modal-backdrop">
+  <div class="modal-card planning-record-modal">
+    <button class="modal-x" onclick="closePlanningRecordModal()">×</button>
+    <h2 id="planningRecordTitle">Planning Record</h2>
+    <div id="planningRecordForm"></div>
+  </div>
+</div>
+
+<div id="bulkImportModalV223" class="modal-backdrop">
+  <div class="modal-card bulk-import-modal-v223">
+    <button class="modal-x" onclick="closeBulkImportV223()">×</button>
+    <span class="bulk-import-eyebrow">Bulk Data Import</span>
+    <h2 id="bulkImportTitleV223">Upload Data</h2>
+    <p id="bulkImportHelpV223" class="section-subtitle"></p>
+
+    <div class="bulk-import-dropzone">
+      <input id="bulkImportFileV223" type="file" accept=".xlsx,.csv" onchange="previewBulkImportV223(this.files[0])">
+      <div>
+        <b>Pilih file Excel (.xlsx) atau CSV</b>
+        <span>Gunakan template agar nama kolom dapat dikenali otomatis.</span>
+      </div>
+    </div>
+
+    <div id="bulkImportPreviewV223" class="bulk-import-preview-v223"></div>
+
+    <div class="modal-actions sticky-actions">
+      <button id="bulkImportConfirmV223" class="btn" onclick="confirmBulkImportV243()" disabled>Import Data</button>
+      <button type="button" class="btn secondary" onclick="closeBulkImportV223()">Batal</button>
+    </div>
+  </div>
+</div>
+
+<div id="serviceProcurementModalV243" class="modal-backdrop">
+  <div class="modal-card service-procurement-modal-v243">
+    <button class="modal-x" onclick="closeServiceProcurementModalV243()">×</button>
+    <h2 id="serviceProcurementModalTitleV243">Tambah Service</h2>
+    <input id="serviceProcurementEditIdV243" type="hidden">
+    <div class="formgrid">
+      <label>Airport<input id="serviceAirportV243" maxlength="4" placeholder="CGK" required></label>
+      <label>Kategori Layanan<select id="serviceCategoryV243"><option>Lounge</option><option>SGHA</option><option>Service Lainnya</option></select></label>
+      <label class="span2">Nama Service / Provider<input id="serviceNameV243" required></label>
+      <label>Currency<input id="serviceCurrencyV243" placeholder="IDR"></label>
+      <label>Harga / Pax<input id="servicePriceV243" type="number" min="0" step="0.01"></label>
+      <label>Tanggal Mulai<input id="serviceStartV243" type="date"></label>
+      <label>Tanggal Berakhir<input id="serviceEndV243" type="date"></label>
+      <label>Nomor Dokumen<input id="serviceDocumentNumberV243"></label>
+      <label>Jenis Dokumen<input id="serviceDocumentTypeV243"></label>
+      <label>Status Dokumen<select id="serviceDocumentStatusV243"><option>Valid</option><option>Pending</option><option>Invalid</option></select></label>
+      <label class="span2">Remarks<textarea id="serviceRemarksV243" rows="3"></textarea></label>
+      <label class="span2">Lampiran Dokumen<input id="serviceDocumentFileV243" type="file"></label>
+    </div>
+    <div class="modal-actions sticky-actions">
+      <button class="btn" onclick="saveServiceProcurementV243()">Simpan Service</button>
+      <button class="btn secondary" onclick="closeServiceProcurementModalV243()">Batal</button>
+    </div>
+  </div>
+</div>
+</main></div>
+<footer class="footer"><b>GROUND EXPERIENCE — GARUDA INDONESIA</b><br>Portal Service Experience • Internal Ground Services Workspace</footer>
+<button id="backToTop" class="back-to-top" aria-label="Kembali ke atas" title="Kembali ke atas">↑</button>
+<script src="assets/v2554-stability.js?v=2.55.5" defer></script><script src="assets/portal-shell.js?v=10.5" defer></script></body></html>
