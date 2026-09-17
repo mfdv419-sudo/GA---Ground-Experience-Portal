@@ -2,18 +2,17 @@ const GX_SESSION_KEY='GXP_SESSION_V24';
 const GX_SHARED_SESSION_KEY='GXP_SESSION_V24_SHARED';
 const GX_RETURN_TO_KEY='GXP_RETURN_TO_V1';
 const GX_DATA_KEY='GE_V2_1_DATA';
-
+const GX_SYNC_KEY='GX_FIREBASE_SCOPE_SYNC_V1';
 function gxGetPortalData(){try{return JSON.parse(localStorage.getItem(GX_DATA_KEY)||'null')}catch(e){return null}}
 function gxGetUsers(){const d=gxGetPortalData();return Array.isArray(d?.users)?d.users:[]}
 function gxGetSession(){try{const shared=JSON.parse(localStorage.getItem(GX_SHARED_SESSION_KEY)||'null');if(shared)return shared;const legacy=JSON.parse(sessionStorage.getItem(GX_SESSION_KEY)||'null');if(legacy){localStorage.setItem(GX_SHARED_SESSION_KEY,JSON.stringify(legacy));return legacy}}catch(e){}return null}
 function gxSetSession(session){if(!session)return;const value=JSON.stringify(session);try{localStorage.setItem(GX_SHARED_SESSION_KEY,value)}catch(e){}try{sessionStorage.setItem(GX_SESSION_KEY,value)}catch(e){}window.GX_CURRENT_USER=session}
-function gxClearSession(){try{sessionStorage.removeItem(GX_SESSION_KEY)}catch(e){}try{localStorage.removeItem(GX_SHARED_SESSION_KEY);localStorage.removeItem(GX_RETURN_TO_KEY)}catch(e){}window.GX_CURRENT_USER=null}
+function gxClearSession(){try{sessionStorage.removeItem(GX_SESSION_KEY)}catch(e){}try{localStorage.removeItem(GX_SHARED_SESSION_KEY);localStorage.removeItem(GX_RETURN_TO_KEY);sessionStorage.removeItem(GX_SYNC_KEY)}catch(e){}window.GX_CURRENT_USER=null}
 function gxCurrentRoute(){const page=(location.pathname.split('/').pop()||'index.html');return `${page}${location.search||''}${location.hash||''}`}
 function gxSafeReturnTo(value){const raw=String(value||'').trim();if(!raw)return'';try{const url=new URL(raw,location.href);if(url.origin!==location.origin)return'';const page=(url.pathname.split('/').pop()||'index.html');if(!/^[a-z0-9][a-z0-9._-]*\.html$/i.test(page)||page.toLowerCase()==='login.html')return'';return `${page}${url.search}${url.hash}`}catch(e){return''}}
 function gxRememberReturnTo(route=gxCurrentRoute()){const safe=gxSafeReturnTo(route);if(safe)try{localStorage.setItem(GX_RETURN_TO_KEY,safe)}catch(e){}return safe}
 function gxConsumeReturnTo(){let candidate='';try{candidate=new URLSearchParams(location.search).get('next')||localStorage.getItem(GX_RETURN_TO_KEY)||'';localStorage.removeItem(GX_RETURN_TO_KEY)}catch(e){}return gxSafeReturnTo(candidate)}
 function gxAuditDirect(action,module,objectLabel,detail,userOverride=null){try{const d=JSON.parse(localStorage.getItem(GX_DATA_KEY)||'null');if(!d)return;d.auditLogs=Array.isArray(d.auditLogs)?d.auditLogs:[];const u=userOverride||gxGetSession()||{};d.auditLogs.unshift({id:Date.now()+Math.floor(Math.random()*1000),timestamp:new Date().toISOString(),username:u.username||u.email||'system',name:u.name||u.username||u.email||'System',role:u.role||'System',action,module,object:objectLabel||'',detail:detail||''});if(d.auditLogs.length>5000)d.auditLogs=d.auditLogs.slice(0,5000);localStorage.setItem(GX_DATA_KEY,JSON.stringify(d))}catch(e){}}
-
 async function gxAuthenticate(username,password){if(window.GXFirebase?.signInWithUsername)return window.GXFirebase.signInWithUsername(username,password);throw new Error('FIREBASE_UNAVAILABLE')}
 async function gxSyncFirebaseSession(){if(!window.GXFirebase?.currentUser)return null;const authUser=await window.GXFirebase.currentUser();if(!authUser){gxClearSession();return null}const profile=await window.GXFirebase.currentProfile();if(!profile){gxClearSession();return null}const session={...profile,uid:authUser.uid,email:profile.email||authUser.email||'',loginAt:Date.now(),authProvider:'firebase'};gxSetSession(session);return session}
 async function gxLogout(){try{if(window.GXFirebase?.signOut)await window.GXFirebase.signOut()}catch(e){}const s=gxGetSession();gxAuditDirect('Logout','Authentication','Session','User logged out',s);gxClearSession();location.replace('login.html')}
@@ -33,16 +32,19 @@ function gxDefaultPage(){const s=gxGetSession();if(!s)return'login.html';if(gxIs
 function gxEnforcePageAccess(){const page=(location.pathname.split('/').pop()||'index.html');if(page==='login.html'||page==='service.html')return;const permission=GX_PAGE_PERMISSION_MAP[page];if(permission&&!gxHasPermission(permission))location.replace(gxDefaultPage())}
 function gxApplyRole(){const s=gxGetSession();if(!s)return;document.querySelectorAll('[data-role-min]').forEach(el=>{if(gxRoleLevel(s.role)<gxRoleLevel(el.dataset.roleMin))el.style.display='none'});document.querySelectorAll('[data-admin-only]').forEach(el=>{if(!gxCanManage())el.style.display='none'})}
 function gxApplyNavigation(){const map=GX_PAGE_PERMISSION_MAP;document.querySelectorAll('.side a[href]').forEach(a=>{const href=(a.getAttribute('href')||'').split('?')[0];const permission=map[href];if(permission&&!gxHasPermission(permission))a.style.display='none'});document.querySelectorAll('[data-permission]').forEach(el=>{if(!gxHasPermission(el.dataset.permission))el.style.display='none'})}
-
-async function gxLoadFirebaseRuntime(){
-  if(window.GXFirebase)return true;
-  const add=src=>new Promise((resolve,reject)=>{if(document.querySelector('script[src^="'+src+'"]'))return resolve();const s=document.createElement('script');s.src=src;s.async=false;s.onload=resolve;s.onerror=reject;document.head.appendChild(s)});
-  try{await add('assets/firebase-config.js');await add('assets/firebase-client.js');return !!window.GXFirebase}catch(e){return false}
-}
+async function gxLoadFirebaseRuntime(){if(window.GXFirebase)return true;const add=src=>new Promise((resolve,reject)=>{if(document.querySelector('script[src^="'+src+'"]'))return resolve();const s=document.createElement('script');s.src=src;s.async=false;s.onload=resolve;s.onerror=reject;document.head.appendChild(s)});try{await add('assets/firebase-config.js');await add('assets/firebase-client.js');return !!window.GXFirebase}catch(e){return false}}
 async function gxBootstrapProtectedPage(){
   if(location.pathname.endsWith('login.html'))return;
   const loaded=await gxLoadFirebaseRuntime();
-  if(loaded){try{const authUser=await GXFirebase.currentUser();if(!authUser){gxClearSession();const next=gxRememberReturnTo();location.replace(`login.html${next?`?next=${encodeURIComponent(next)}`:''}`);return}const profile=await GXFirebase.currentProfile();if(!profile){gxClearSession();location.replace('login.html');return}gxSetSession({...profile,uid:authUser.uid,email:profile.email||authUser.email||'',authProvider:'firebase'});gxEnforcePageAccess();gxApplyRole();gxApplyNavigation();return}catch(e){/* retain legacy session only when Firebase runtime itself cannot validate */}}
+  if(loaded){try{const authUser=await GXFirebase.currentUser();if(!authUser){gxClearSession();const next=gxRememberReturnTo();location.replace(`login.html${next?`?next=${encodeURIComponent(next)}`:''}`);return}const profile=await GXFirebase.currentProfile();if(!profile){gxClearSession();location.replace('login.html');return}gxSetSession({...profile,uid:authUser.uid,email:profile.email||authUser.email||'',authProvider:'firebase'});
+    if(gxIsExternal()&&window.GXFirebase.syncAccessibleInitiativesToLegacyStore){
+      const syncDone=sessionStorage.getItem(GX_SYNC_KEY)==='1';
+      if(!syncDone){
+        try{await GXFirebase.syncAccessibleInitiativesToLegacyStore(profile);sessionStorage.setItem(GX_SYNC_KEY,'1');location.reload();return}catch(e){console.warn('Firebase scope sync failed',e)}
+      }
+    }
+    gxEnforcePageAccess();gxApplyRole();gxApplyNavigation();return
+  }catch(e){console.warn('Firebase session validation failed',e);gxClearSession();location.replace('login.html');return}}
   if(!gxGetSession()){const next=gxRememberReturnTo();location.replace(`login.html${next?`?next=${encodeURIComponent(next)}`:''}`);return}
   gxEnforcePageAccess();gxApplyRole();gxApplyNavigation();
 }
