@@ -39,15 +39,22 @@ async function gxBootstrapProtectedPage(){
   if(loaded){try{
     const authUser=await GXFirebase.currentUser();
     if(!authUser){gxClearSession();const next=gxRememberReturnTo();location.replace(`login.html${next?`?next=${encodeURIComponent(next)}`:''}`);return}
-    const profile=await GXFirebase.currentProfile();
-    if(!profile){console.warn('Firebase profile unavailable; retaining authenticated session for bootstrap');gxSetSession({uid:authUser.uid,email:authUser.email||'',username:authUser.email||'',name:authUser.displayName||authUser.email||'',role:'Viewer',status:'Active',tabs:['home'],permissions:['home'],loginAt:Date.now(),authProvider:'firebase'});}
-    else gxSetSession({...profile,uid:authUser.uid,email:profile.email||authUser.email||'',authProvider:'firebase'});
+    let profile=null;
+    try{profile=await GXFirebase.currentProfile()}catch(profileError){console.warn('Firebase profile read failed; using cached authenticated session',profileError)}
+    const cached=gxGetSession();
+    if(profile){
+      gxSetSession({...profile,uid:authUser.uid,email:profile.email||authUser.email||'',authProvider:'firebase'});
+    }else if(cached&&String(cached.uid||'')===String(authUser.uid)){
+      gxSetSession({...cached,uid:authUser.uid,email:cached.email||authUser.email||'',authProvider:'firebase'});
+    }else{
+      gxClearSession();const next=gxRememberReturnTo();location.replace(`login.html${next?`?next=${encodeURIComponent(next)}`:''}`);return;
+    }
     if(gxIsExternal()&&window.GXFirebase.syncAccessibleInitiativesToLegacyStore){
       const syncDone=sessionStorage.getItem(GX_SYNC_KEY)==='1';
       if(!syncDone){try{await GXFirebase.syncAccessibleInitiativesToLegacyStore(gxGetSession());sessionStorage.setItem(GX_SYNC_KEY,'1');}catch(e){console.warn('Firebase scope sync failed',e)}}
     }
     gxEnforcePageAccess();gxApplyRole();gxApplyNavigation();return
-  }catch(e){console.warn('Firebase session validation failed',e);gxClearSession();const next=gxRememberReturnTo();location.replace(`login.html${next?`?next=${encodeURIComponent(next)}`:''}`);return}}
+  }catch(e){console.warn('Firebase session validation failed',e);const cached=gxGetSession();if(cached&&cached.uid){gxSetSession(cached);gxEnforcePageAccess();gxApplyRole();gxApplyNavigation();return}gxClearSession();const next=gxRememberReturnTo();location.replace(`login.html${next?`?next=${encodeURIComponent(next)}`:''}`);return}}
   if(!gxGetSession()){const next=gxRememberReturnTo();location.replace(`login.html${next?`?next=${encodeURIComponent(next)}`:''}`);return}
   gxEnforcePageAccess();gxApplyRole();gxApplyNavigation();
 }
