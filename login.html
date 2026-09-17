@@ -4,8 +4,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Login — Ground Experience Portal</title>
 <script src="assets/firebase-config.js?v=1"></script>
-<script src="assets/firebase-client.js?v=1"></script>
-<script src="assets/auth.js?v=2.56.1"></script>
+<script src="assets/firebase-client.js?v=2"></script>
+<script src="assets/auth.js?v=2.58"></script>
 <link rel="stylesheet" href="assets/portal.css?v=10.6">
 </head>
 <body>
@@ -14,7 +14,7 @@
 </div></section>
 <script>
 (async()=>{
-  try{await GXFirebase.init();const u=await GXFirebase.currentUser();if(u){await gxSyncFirebaseSession();location.replace(gxConsumeReturnTo()||gxDefaultPage())}}catch(e){console.warn('Firebase init:',e)}
+  try{await GXFirebase.init();const u=await GXFirebase.currentUser();if(u){const cached=gxGetSession();if(cached&&String(cached.uid||'')===String(u.uid))location.replace(gxConsumeReturnTo()||gxDefaultPage());else{try{await gxSyncFirebaseSession();location.replace(gxConsumeReturnTo()||gxDefaultPage())}catch(e){console.warn('Firebase session restore:',e)}}}}catch(e){console.warn('Firebase init:',e)}
 })();
 loginForm.addEventListener('submit',async e=>{
   e.preventDefault();loginError.style.display='none';loginSubmit.disabled=true;loginSubmit.textContent='Memproses…';
@@ -27,11 +27,12 @@ loginForm.addEventListener('submit',async e=>{
       INVALID_CREDENTIALS:'Username/email atau password tidak sesuai.',
       ACCOUNT_INACTIVE:'Akun tidak aktif.',
       USER_EMAIL_MISSING:'Profile user belum memiliki email untuk Authentication Firebase.',
-      USERNAME_LOOKUP_UNAVAILABLE:'Username tidak dapat dicari karena akses Firestore belum mengizinkan lookup sebelum login. Gunakan email Firebase atau konfigurasi lookup username di backend.',
+      USERNAME_LOOKUP_UNAVAILABLE:'Username tidak dapat dicari sebelum login. Gunakan email Firebase untuk masuk.',
+      PROFILE_ACCESS_DENIED:'Akun berhasil diautentikasi, tetapi profile users tidak dapat dibaca oleh Firestore Rules.',
       FIREBASE_UNAVAILABLE:'Firebase tidak dapat dihubungi. Periksa koneksi, Firebase config, dan domain yang diizinkan.',
       AUTH_PROVIDER_DISABLED:'Provider Email/Password Firebase belum diaktifkan.',
       AUTH_INVALID_EMAIL:'Format email tidak valid.',
-      AUTH_INVALID_CREDENTIAL:'Email/username atau password tidak sesuai.'
+      AUTH_UNAUTHORIZED_DOMAIN:'Domain website ini belum diizinkan di Firebase Authentication → Settings → Authorized domains.'
     };
     loginError.textContent=messages[err?.message]||('Login gagal: '+(err?.message||'unknown error'));
     loginError.style.display='block';loginSubmit.disabled=false;loginSubmit.textContent='Masuk';
