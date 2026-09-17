@@ -14,7 +14,7 @@ function gxRememberReturnTo(route=gxCurrentRoute()){const safe=gxSafeReturnTo(ro
 function gxConsumeReturnTo(){let candidate='';try{candidate=new URLSearchParams(location.search).get('next')||localStorage.getItem(GX_RETURN_TO_KEY)||'';localStorage.removeItem(GX_RETURN_TO_KEY)}catch(e){}return gxSafeReturnTo(candidate)}
 function gxAuditDirect(action,module,objectLabel,detail,userOverride=null){try{const d=JSON.parse(localStorage.getItem(GX_DATA_KEY)||'null');if(!d)return;d.auditLogs=Array.isArray(d.auditLogs)?d.auditLogs:[];const u=userOverride||gxGetSession()||{};d.auditLogs.unshift({id:Date.now()+Math.floor(Math.random()*1000),timestamp:new Date().toISOString(),username:u.username||u.email||'system',name:u.name||u.username||u.email||'System',role:u.role||'System',action,module,object:objectLabel||'',detail:detail||''});if(d.auditLogs.length>5000)d.auditLogs=d.auditLogs.slice(0,5000);localStorage.setItem(GX_DATA_KEY,JSON.stringify(d))}catch(e){}}
 async function gxAuthenticate(username,password){if(window.GXFirebase?.signInWithUsername)return window.GXFirebase.signInWithUsername(username,password);throw new Error('FIREBASE_UNAVAILABLE')}
-async function gxSyncFirebaseSession(){if(!window.GXFirebase?.currentUser)return null;const authUser=await window.GXFirebase.currentUser();if(!authUser){gxClearSession();return null}const profile=await window.GXFirebase.currentProfile();if(!profile){gxClearSession();return null}const session={...profile,uid:authUser.uid,email:profile.email||authUser.email||'',loginAt:Date.now(),authProvider:'firebase'};gxSetSession(session);return session}
+async function gxSyncFirebaseSession(){if(!window.GXFirebase?.currentUser)return null;const authUser=await window.GXFirebase.currentUser();if(!authUser)return null;const profile=await window.GXFirebase.currentProfile();if(!profile)return null;const session={...profile,uid:authUser.uid,email:profile.email||authUser.email||'',loginAt:Date.now(),authProvider:'firebase'};gxSetSession(session);return session}
 async function gxLogout(){try{if(window.GXFirebase?.signOut)await window.GXFirebase.signOut()}catch(e){}const s=gxGetSession();gxAuditDirect('Logout','Authentication','Session','User logged out',s);gxClearSession();location.replace('login.html')}
 function gxRoleLevel(role){return {'Lounge Staff':0,'Lounge Luar Biasa':0,'Staff':1,'Branch Office':1,'Viewer':1,'External User':1,'External':1,'Collaborator':1,'Admin':2,'Super Admin':3}[role]??0}
 function gxCanManage(){const s=gxGetSession();return !!s&&['Admin','Super Admin'].includes(s.role)}
@@ -36,15 +36,18 @@ async function gxLoadFirebaseRuntime(){if(window.GXFirebase)return true;const ad
 async function gxBootstrapProtectedPage(){
   if(location.pathname.endsWith('login.html'))return;
   const loaded=await gxLoadFirebaseRuntime();
-  if(loaded){try{const authUser=await GXFirebase.currentUser();if(!authUser){gxClearSession();const next=gxRememberReturnTo();location.replace(`login.html${next?`?next=${encodeURIComponent(next)}`:''}`);return}const profile=await GXFirebase.currentProfile();if(!profile){gxClearSession();location.replace('login.html');return}gxSetSession({...profile,uid:authUser.uid,email:profile.email||authUser.email||'',authProvider:'firebase'});
+  if(loaded){try{
+    const authUser=await GXFirebase.currentUser();
+    if(!authUser){gxClearSession();const next=gxRememberReturnTo();location.replace(`login.html${next?`?next=${encodeURIComponent(next)}`:''}`);return}
+    const profile=await GXFirebase.currentProfile();
+    if(!profile){console.warn('Firebase profile unavailable; retaining authenticated session for bootstrap');gxSetSession({uid:authUser.uid,email:authUser.email||'',username:authUser.email||'',name:authUser.displayName||authUser.email||'',role:'Viewer',status:'Active',tabs:['home'],permissions:['home'],loginAt:Date.now(),authProvider:'firebase'});}
+    else gxSetSession({...profile,uid:authUser.uid,email:profile.email||authUser.email||'',authProvider:'firebase'});
     if(gxIsExternal()&&window.GXFirebase.syncAccessibleInitiativesToLegacyStore){
       const syncDone=sessionStorage.getItem(GX_SYNC_KEY)==='1';
-      if(!syncDone){
-        try{await GXFirebase.syncAccessibleInitiativesToLegacyStore(profile);sessionStorage.setItem(GX_SYNC_KEY,'1');location.reload();return}catch(e){console.warn('Firebase scope sync failed',e)}
-      }
+      if(!syncDone){try{await GXFirebase.syncAccessibleInitiativesToLegacyStore(gxGetSession());sessionStorage.setItem(GX_SYNC_KEY,'1');}catch(e){console.warn('Firebase scope sync failed',e)}}
     }
     gxEnforcePageAccess();gxApplyRole();gxApplyNavigation();return
-  }catch(e){console.warn('Firebase session validation failed',e);gxClearSession();location.replace('login.html');return}}
+  }catch(e){console.warn('Firebase session validation failed',e);gxClearSession();const next=gxRememberReturnTo();location.replace(`login.html${next?`?next=${encodeURIComponent(next)}`:''}`);return}}
   if(!gxGetSession()){const next=gxRememberReturnTo();location.replace(`login.html${next?`?next=${encodeURIComponent(next)}`:''}`);return}
   gxEnforcePageAccess();gxApplyRole();gxApplyNavigation();
 }
