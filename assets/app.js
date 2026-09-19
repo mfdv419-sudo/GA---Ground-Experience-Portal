@@ -1434,12 +1434,12 @@ function downloadLoungeVisitorsCSV(){
    ============================================================== */
 const GE_TAB_OPTIONS=[
  ['home','Beranda'],['services','Layanan Garuda Indonesia'],['initiatives','Kegiatan & Inisiatif'],
- ['lounge-access','Lounge Access'],['lounge-visitor','Lounge Visitor'],['lounge-list','Daftar Lounge'],
+ ['lounge-access','Lounge Access'],['lounge-visitor','Lounge Visitor'],['lounge-list','Daftar Lounge'],['planning','Planning Workspace'],
  ['data','Data'],['news','Berita & Informasi'],['contact','Hubungi Kami'],['admin','Admin / Pengelola']
 ];
 
 function geSession(){return typeof gxGetSession==='function'?gxGetSession():window.GX_CURRENT_USER}
-function geCanManageAccounts(){return typeof gxCanManage==='function'?gxCanManage():['Admin','Super Admin'].includes(geSession()?.role)}
+function geCanManageAccounts(){return typeof gxHasUserManagementPermission==='function'?gxHasUserManagementPermission():typeof gxCanManage==='function'?gxCanManage():false}
 function geVisibleAirports(){
  const allowed=typeof gxAllowedAirports==='function'?gxAllowedAirports():[];
  return allowed.length?allowed:[...new Set([...(data.airports||[]).map(x=>x.code),...(data.lounges||[]).map(x=>x.airport)].filter(Boolean))].sort();
@@ -1456,6 +1456,8 @@ function geVisibleLoungeRows(){
 /* Account manager */
 function userDefaultTabs(role){
  if(role==='Super Admin'||role==='Admin')return['ALL'];
+ if(role==='Management')return['home','services','initiatives','planning','news'];
+ if(role==='Head Office')return['home','services','initiatives','planning','data','news'];
  if(role==='Branch Office')return['home','services','initiatives','lounge-list','lounge-visitor','data','news'];
  if(role==='Lounge Staff')return['lounge-access','lounge-visitor'];
  return['home','services','initiatives','data','news'];
@@ -1477,13 +1479,46 @@ function userRoleChanged(){
  document.getElementById('userLoungeScopeWrap').style.display=role==='Lounge Staff'?'block':'none';
  renderUserTabsChecklist(userDefaultTabs(role));
 }
+function geFirebaseUserMap(users){
+ return (users||[]).map(u=>({
+   ...u,
+   id:String(u.id),
+   airports:Array.isArray(u.airports)?u.airports:[],
+   loungeIds:Array.isArray(u.loungeIds)?u.loungeIds:[],
+   tabs:Array.isArray(u.tabs)?u.tabs:[]
+ }));
+}
+async function syncFirebaseUsers(){
+ if(!geCanManageAccounts()||typeof gxApi!=='function')return;
+ try{
+   const r=await gxApi('/auth-list-users',{method:'GET'});
+   if(Array.isArray(r.users)){
+     data.users=geFirebaseUserMap(r.users);
+     if(typeof save==='function')save();
+     renderUserAccounts();
+   }
+ }catch(e){
+   console.warn('Firebase user sync failed:', e.message);
+ }
+}
+function setPasswordFields(mode){
+ const p=document.getElementById('userPassword'),c=document.getElementById('userPasswordConfirm');
+ if(!p||!c)return;
+ const isCreate=mode==='create';
+ p.required=isCreate;c.required=isCreate;
+ p.value='';c.value='';
+ p.closest('label').style.display=isCreate?'':'none';
+ c.closest('label').style.display=isCreate?'':'none';
+}
 function openUserModal(id=null){
  if(!geCanManageAccounts())return;
  const modal=document.getElementById('userAccountModal');if(!modal)return;
  const u=id?(data.users||[]).find(x=>String(x.id)===String(id)):null;
  document.getElementById('userModalTitle').textContent=u?'Edit Akun':'Tambah Akun';
  userEditId.value=u?.id||'';userFullName.value=u?.name||'';userEmployeeNo.value=u?.employeeNo||'';
- userUsername.value=u?.username||'';userPassword.value=u?.password||'';
+ userUsername.value=u?.username||'';userUsername.readOnly=!!u;
+ userEmail.value=u?.email||'';userEmail.readOnly=!!u;
+ setPasswordFields(u?'edit':'create');
  userRole.value=u?.role||'Staff';userUnit.value=u?.unit||'';userStatus.value=u?.status||'Active';
  userAirports.value=(u?.airports||[]).join(', ');
  fillUserLoungeOptions(u?.loungeIds||[]);
@@ -1493,12 +1528,10 @@ function openUserModal(id=null){
  modal.classList.add('show');
 }
 function closeUserModal(){document.getElementById('userAccountModal')?.classList.remove('show')}
-function saveUserAccount(){
- if(!geCanManageAccounts())return;
- const id=Number(userEditId.value||0);
+async function saveUserAccount(){
+ if(!geCanManageAccounts()||typeof gxApi!=='function')return;
+ const id=String(userEditId.value||'');
  const username=userUsername.value.trim().toLowerCase();
- const duplicate=(data.users||[]).find(u=>u.username.toLowerCase()===username&&u.id!==id);
- if(duplicate){alert('Username sudah digunakan oleh akun lain.');return}
  const role=userRole.value;
  let tabs;
  if(role==='Super Admin'||role==='Admin')tabs=['ALL'];
@@ -1506,20 +1539,57 @@ function saveUserAccount(){
  else tabs=[...document.querySelectorAll('#userTabsChecklist input:checked')].map(x=>x.value);
  if(!tabs.length){alert('Pilih minimal satu TAB yang dapat diakses.');return}
  const airports=userAirports.value.split(',').map(x=>x.trim().toUpperCase()).filter(Boolean);
- const loungeIds=[...userLoungeIds.selectedOptions].map(x=>Number(x.value));
- const scopeType=role==='Super Admin'||role==='Admin'?'ALL':role==='Branch Office'?'AIRPORT':role==='Lounge Staff'?'LOUNGE':'CUSTOM';
- if(role==='Branch Office'&&!airports.length){alert('Branch Office wajib memiliki minimal satu Airport.');return}
+ const loungeIds=[...userLoungeIds.selectedOptions].map(x=>String(x.value));
+ const scopeType=role==='Super Admin'||role==='Admin'||role==='Management'?'ALL':role==='Branch Office'?'STATION':role==='Lounge Staff'?'LOUNGE':role==='Head Office'?'MULTI_STATION':'CUSTOM';
+ if(['Branch Office','Head Office'].includes(role)&&!airports.length){alert(`${role} wajib memiliki minimal satu station scope.`);return}
  if(role==='Lounge Staff'&&!loungeIds.length){alert('Lounge Staff wajib ditugaskan ke minimal satu Lounge.');return}
- const obj={id:id||Date.now(),name:userFullName.value.trim(),employeeNo:userEmployeeNo.value.trim(),username,password:userPassword.value,role,unit:userUnit.value.trim(),scopeType,airports,loungeIds,tabs,status:userStatus.value};
- if(id)Object.assign(data.users.find(u=>u.id===id),obj);else data.users.push(obj);
- save();closeUserModal();renderUserAccounts();alert('Akun berhasil disimpan dan dapat digunakan pada halaman login.');
+ try{
+   let profile;
+   if(!id){
+     const password=userPassword.value;
+     const confirm=userPasswordConfirm.value;
+     if(password!==confirm){alert('Confirm Temporary Password harus sama.');return}
+     if(password.length<10){alert('Temporary Password minimal 10 karakter.');return}
+     const r=await gxApi('/auth-create-user',{method:'POST',body:JSON.stringify({
+       username,email:userEmail.value.trim().toLowerCase(),fullName:userFullName.value.trim(),employeeNo:userEmployeeNo.value.trim(),
+       role,unit:userUnit.value.trim(),status:userStatus.value,scopeType,airports,loungeIds,tabs,
+       temporaryPassword:password,confirmTemporaryPassword:confirm
+     })});
+     profile=r.profile;
+   }else{
+     const r=await gxApi('/auth-update-user',{method:'POST',body:JSON.stringify({
+       userId:id,fullName:userFullName.value.trim(),employeeNo:userEmployeeNo.value.trim(),
+       role,unit:userUnit.value.trim(),status:userStatus.value,scopeType,airports,loungeIds,tabs
+     })});
+     profile=r.profile;
+   }
+   const idx=(data.users||[]).findIndex(u=>String(u.id)===String(profile.id));
+   if(idx>=0)data.users[idx]=profile;else data.users.push(profile);
+   save();closeUserModal();renderUserAccounts();
+   alert(id?'Akun berhasil diperbarui.':'Akun berhasil dibuat. User wajib mengganti temporary password saat login pertama.');
+ }catch(e){
+   alert(e.message||'Akun gagal disimpan.');
+ }
+}
+async function resetUserPassword(id){
+ if(!geCanManageAccounts()||typeof gxApi!=='function')return;
+ const u=(data.users||[]).find(x=>String(x.id)===String(id));if(!u)return;
+ const password=prompt('Masukkan temporary password baru (minimal 10 karakter).');
+ if(password===null)return;
+ const confirm=prompt('Ulangi temporary password baru.');
+ if(password!==confirm){alert('Password dan konfirmasi tidak sama.');return}
+ if(password.length<10){alert('Temporary password minimal 10 karakter.');return}
+ try{
+   await gxApi('/auth-reset-password',{method:'POST',body:JSON.stringify({userId:String(id),temporaryPassword:password,confirmTemporaryPassword:confirm})});
+   u.mustChangePassword=true;save();renderUserAccounts();
+   alert('Temporary password berhasil direset. User wajib menggantinya saat login.');
+ }catch(e){alert(e.message||'Reset password gagal.')}
 }
 function deleteUserAccount(id){
  if(!geCanManageAccounts())return;
- const u=(data.users||[]).find(x=>x.id===id);if(!u)return;
- if(u.username===geSession()?.username){alert('Akun yang sedang digunakan tidak dapat dihapus.');return}
- if(!confirm(`Hapus akun ${u.name} (${u.username})?`))return;
- data.users=data.users.filter(x=>x.id!==id);save();renderUserAccounts();
+ const u=(data.users||[]).find(x=>String(x.id)===String(id));if(!u)return;
+ if(String(u.id)===String(geSession()?.id)){alert('Akun yang sedang digunakan tidak dapat dihapus.');return}
+ alert('Penghapusan akun Firebase harus melalui workflow server terotorisasi. Tombol hapus lokal dinonaktifkan untuk mencegah akun yatim.');
 }
 function renderUserAccounts(){
  const t=document.getElementById('userAccountRows');if(!t)return;
@@ -1527,7 +1597,7 @@ function renderUserAccounts(){
  t.innerHTML=(data.users||[]).map((u,i)=>{
   const scope=u.scopeType==='ALL'?'All Area':u.scopeType==='LOUNGE'?`${(u.loungeIds||[]).length} Lounge`:u.scopeType==='AIRPORT'?(u.airports||[]).join(', '):(u.unit||'Custom');
   const tabs=(u.tabs||[]).includes('ALL')?'Semua TAB':(u.tabs||[]).map(v=>GE_TAB_OPTIONS.find(x=>x[0]===v)?.[1]||v).join(', ');
-  return `<tr><td>${i+1}</td><td><b>${u.name}</b></td><td>${u.employeeNo||'-'}</td><td>${u.username}</td><td>${u.role}</td><td>${u.unit||'-'}</td><td>${scope}</td><td>${tabs}</td><td><span class="pill">${u.status}</span></td>${can?`<td class="visitor-actions"><button class="btn secondary compact-btn" onclick="openUserModal(${u.id})">Edit</button><button class="btn danger compact-btn" onclick="deleteUserAccount(${u.id})">Hapus</button></td>`:''}</tr>`;
+  return `<tr><td>${i+1}</td><td><b>${u.name||'-'}</b></td><td>${u.employeeNo||'-'}</td><td>${u.username||'-'}</td><td>${u.email||'-'}</td><td>${u.role||'-'}</td><td>${u.unit||'-'}</td><td>${scope}</td><td>${tabs}</td><td><span class="pill">${u.status||'-'}${u.mustChangePassword?' • Change password':''}</span></td>${can?`<td class="visitor-actions"><button class="btn secondary compact-btn" onclick="openUserModal('${String(u.id).replace(/'/g,"\\\\'")}')">Edit</button><button class="btn secondary compact-btn" onclick="resetUserPassword('${String(u.id).replace(/'/g,"\\\\'")}')">Reset Password</button></td>`:''}</tr>`;
  }).join('');
  if(typeof geEnhanceAllTables==='function')setTimeout(geEnhanceAllTables,0);
 }
@@ -1598,11 +1668,13 @@ function geInitV211(){
  if(typeof gxApplyNavigation==='function')gxApplyNavigation();
  if(typeof gxApplyRole==='function')gxApplyRole();
  renderUserAccounts();
+ if(typeof syncFirebaseUsers==='function')syncFirebaseUsers();
  fillAirportSelects();
  renderLoungeVisitors();
  renderLounges();
 }
 window.addEventListener('DOMContentLoaded',geInitV211);
+window.addEventListener('gx-auth-verified',()=>{if(typeof syncFirebaseUsers==='function')syncFirebaseUsers()});
 
 
 /* ==============================================================
@@ -1899,27 +1971,7 @@ function userRoleChanged(){
  document.getElementById('userLoungeScopeWrap').style.display=role==='Lounge Staff'?'block':'none';
  renderUserTabsChecklist(userDefaultTabs(role));
 }
-function saveUserAccount(){
- if(!geCanManageAccounts())return;
- const id=Number(userEditId.value||0);
- const username=userUsername.value.trim().toLowerCase();
- const duplicate=(data.users||[]).find(u=>u.username.toLowerCase()===username&&u.id!==id);
- if(duplicate){alert('Username sudah digunakan oleh akun lain.');return}
- const role=userRole.value;
- let tabs;
- if(role==='Super Admin'||role==='Admin')tabs=['ALL'];
- else if(role==='Lounge Staff')tabs=['lounge-access','lounge-visitor'];
- else tabs=[...document.querySelectorAll('#userTabsChecklist input:checked')].map(x=>x.value);
- if(!tabs.length){alert('Pilih minimal satu TAB yang dapat diakses.');return}
- const airports=userAirports.value.split(',').map(x=>x.trim().toUpperCase()).filter(Boolean);
- const loungeIds=[...userLoungeIds.selectedOptions].map(x=>Number(x.value));
- const scopeType=role==='Super Admin'||role==='Admin'?'ALL':role==='Branch Office'?'AIRPORT':role==='Lounge Staff'?'LOUNGE':'CUSTOM';
- if(role==='Branch Office'&&!airports.length){alert('Branch Office wajib memiliki minimal satu Airport.');return}
- if(role==='Lounge Staff'&&!loungeIds.length){alert('Lounge Staff wajib ditugaskan ke minimal satu Lounge.');return}
- const obj={id:id||Date.now(),name:userFullName.value.trim(),employeeNo:userEmployeeNo.value.trim(),username,password:userPassword.value,role,unit:userUnit.value.trim(),scopeType,airports,loungeIds,tabs,status:userStatus.value};
- if(id)Object.assign(data.users.find(u=>u.id===id),obj);else data.users.push(obj);
- save();closeUserModal();renderUserAccounts();alert('Akun berhasil disimpan dan dapat digunakan pada halaman login.');
-}
+function saveUserAccount(){if(typeof window.p26OpenUserForm==='function'){window.p26OpenUserForm(document.getElementById('p26UserId')?.value||null);}}
 
 /* Hard-hide unauthorized links/groups even against CSS display: block !important rules. */
 function geHardHide(el){
@@ -3043,7 +3095,20 @@ const GE_PLANNING_COLLECTION={
 };
 let GE_PLANNING_EDIT={type:null,id:null};
 
-function gePlanningCanManage(){return typeof gxCanManage==='function'&&gxCanManage()}
+function gePlanningCanAction(action='View',context={}){
+ const s=geSession();if(!s)return false;
+ if(s.role==='Management'&&['Create','Edit','Update','Upload','Delete'].includes(action))return false;
+ const required=({View:0,Detail:0,Report:0,Create:1,Edit:1,Update:1,Upload:1,Delete:1,Review:2,Verify:2,Approve:2,Configure:3})[action]??1;
+ const rank=typeof gxAccessLevelRank==='function'?gxAccessLevelRank():(['Super Admin','Admin'].includes(s.role)?3:0);
+ if(rank<required)return false;
+ if(typeof GEPermission!=='undefined'&&typeof GEPermission.check==='function'){
+   const permissionAction=required>=2?'View':required>=1?'Edit':'View';
+   const result=GEPermission.check({user:s,domain:'Shared Objects',action:permissionAction,sensitivity:'Internal',context});
+   if(!result.allowed)return false;
+ }
+ return true;
+}
+function gePlanningCanManage(){return gePlanningCanAction('Edit')}
 function gePlanningAllowedAirport(code){
  return typeof gxAirportAllowed!=='function'||gxAirportAllowed(code);
 }
@@ -3722,7 +3787,7 @@ userDefaultTabs=function(role){
 const GE_ORIGINAL_USER_ROLE_CHANGED_V223=userRoleChanged;
 userRoleChanged=function(){
   const role=document.getElementById('userRole')?.value||'Staff';
-  document.getElementById('userAirportScopeWrap').style.display=['Branch Office','Staff','Lounge Staff','Lounge Luar Biasa'].includes(role)?'block':'none';
+  document.getElementById('userAirportScopeWrap').style.display=['Branch Office','Head Office','Staff','Lounge Staff','Lounge Luar Biasa'].includes(role)?'block':'none';
   document.getElementById('userLoungeScopeWrap').style.display=['Lounge Staff','Lounge Luar Biasa'].includes(role)?'block':'none';
   renderUserTabsChecklist(userDefaultTabs(role));
 };
@@ -3737,48 +3802,7 @@ renderUserTabsChecklist=function(selected=[]){
 };
 
 const GE_ORIGINAL_SAVE_USER_ACCOUNT_V223=saveUserAccount;
-saveUserAccount=function(){
-  if(!geCanManageAccounts())return;
-  const id=Number(userEditId.value||0);
-  const username=userUsername.value.trim().toLowerCase();
-  const duplicate=(data.users||[]).find(u=>u.username.toLowerCase()===username&&u.id!==id);
-  if(duplicate){geStorageNoticeV223('Username Sudah Digunakan','Gunakan username lain.');return}
-
-  const role=userRole.value;
-  let tabs;
-  if(role==='Super Admin'||role==='Admin')tabs=['ALL'];
-  else if(['Lounge Staff','Lounge Luar Biasa'].includes(role))tabs=['lounge-access','lounge-visitor'];
-  else tabs=[...document.querySelectorAll('#userTabsChecklist input:checked')].map(x=>x.value);
-
-  if(!tabs.length){geStorageNoticeV223('TAB Belum Dipilih','Pilih minimal satu TAB yang dapat diakses.');return}
-
-  const airports=userAirports.value.split(',').map(x=>x.trim().toUpperCase()).filter(Boolean);
-  const loungeIds=[...userLoungeIds.selectedOptions].map(x=>Number(x.value));
-
-  const scopeType=role==='Super Admin'||role==='Admin'
-    ?'ALL'
-    :role==='Branch Office'
-      ?'AIRPORT'
-      :['Lounge Staff','Lounge Luar Biasa'].includes(role)
-        ?'LOUNGE'
-        :'CUSTOM';
-
-  if(role==='Branch Office'&&!airports.length){geStorageNoticeV223('Airport Wajib Diisi','Branch Office wajib memiliki minimal satu Airport.');return}
-  if(['Lounge Staff','Lounge Luar Biasa'].includes(role)&&!loungeIds.length){
-    geStorageNoticeV223('Lounge Wajib Dipilih','Role lounge wajib ditugaskan ke minimal satu Lounge.');
-    return;
-  }
-
-  const obj={
-    id:id||Date.now(),name:userFullName.value.trim(),employeeNo:userEmployeeNo.value.trim(),
-    username,password:userPassword.value,role,unit:userUnit.value.trim(),scopeType,
-    airports,loungeIds,tabs,status:userStatus.value
-  };
-
-  if(id)Object.assign(data.users.find(u=>u.id===id),obj);else data.users.push(obj);
-  save();closeUserModal();renderUserAccounts();
-  geStorageNoticeV223('Akun Berhasil Disimpan',`${obj.name} dapat menggunakan role ${obj.role}.`,'success');
-};
+saveUserAccount=function(){if(typeof window.p26OpenUserForm==='function'){window.p26OpenUserForm(document.getElementById('p26UserId')?.value||null);}};
 
 const GE_ORIGINAL_VISIBLE_LOUNGES_V223=geVisibleLoungeRows;
 geVisibleLoungeRows=function(){
@@ -8599,3 +8623,45 @@ window.addEventListener('DOMContentLoaded',()=>{
     });
   }
 });
+
+
+/* P22/P23/P24 — Planning action visibility follows Access Level + Permission, not Role alone. */
+(function(){
+'use strict';
+const PLANNING_PAGES_P22=new Set(['service-planning.html','planning-workspace.html','lounge-list.html','branch-office-planning.html','gaso-planning.html','planning-documents.html','station-material.html','bo-space.html','airport-systems.html','lounge-procurement.html']);
+function applyPlanningActions(){
+ const page=(location.pathname.split('/').pop()||'index.html').toLowerCase();
+ if(!PLANNING_PAGES_P22.has(page))return;
+ document.querySelectorAll('[data-admin-only]').forEach(el=>{el.style.display=gePlanningCanAction('Edit')?'':'none'});
+}
+window.addEventListener('DOMContentLoaded',()=>setTimeout(applyPlanningActions,120));
+})();
+
+
+/* User Management protection: existing Super Admin accounts are not ordinary edit targets. */
+(function(){
+'use strict';
+const originalOpenUserModal=window.openUserModal;
+if(originalOpenUserModal){
+ window.openUserModal=function(id=null){
+   const u=(window.data?.users||[]).find(x=>String(x.id)===String(id));
+   if(u?.role==='Super Admin'){
+     if(typeof geStorageNoticeV223==='function')geStorageNoticeV223('Super Admin Terlindungi','Akun Super Admin existing tidak dapat diedit melalui User Management.');
+     else alert('Akun Super Admin existing tidak dapat diedit melalui User Management.');
+     return;
+   }
+   return originalOpenUserModal(id);
+ };
+}
+const originalRenderUserAccounts=window.renderUserAccounts;
+if(originalRenderUserAccounts){
+ window.renderUserAccounts=function(){
+   const out=originalRenderUserAccounts.apply(this,arguments);
+   document.querySelectorAll('#userAccountRows tr').forEach(row=>{
+     const role=row.cells?.[5]?.textContent?.trim();
+     if(role==='Super Admin'&&row.lastElementChild){row.lastElementChild.innerHTML='<span class="pill">Protected</span>';}
+   });
+   return out;
+ };
+}
+})();
