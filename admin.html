@@ -1,4 +1,4 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin</title><script src="assets/auth.js?v=2.54.1"></script><script src="assets/data.js?v=2.54.1"></script><script src="assets/core-v257.js?v=2.57-P1.1" defer></script><script src="assets/relationships-v257.js?v=2.57-P1.2" defer></script><script src="assets/compatibility-v257.js?v=2.57-P1.7" defer></script><script src="assets/files.js?v=2.54.1"></script><script src="assets/app.js?v=2.54.1" defer></script><script src="assets/v254-project.js?v=2.54.4" defer></script><script src="assets/v2544-modal-fix.js?v=2.54.4" defer></script><script>document.documentElement.classList.add("r9-boot")</script><link rel="stylesheet" href="assets/portal.css?v=10.5"></head><body id="top">
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin</title><script src="assets/auth.js?v=2.54.1"></script><script src="assets/data.js?v=2.54.1"></script><script src="assets/core-v257.js?v=2.57-P1.1" defer></script><script src="assets/relationships-v257.js?v=2.57-P1.2" defer></script><script src="assets/compatibility-v257.js?v=2.57-P1.7" defer></script><script src="assets/files.js?v=2.54.1"></script><script src="assets/app.js?v=2.54.1" defer></script><script src="assets/v254-project.js?v=2.54.4" defer></script><script src="assets/v2544-modal-fix.js?v=2.54.4" defer></script><script src="assets/user-access-p26.js?v=26.1" defer></script><script src="assets/page-identity-v28.js?v=28.1" defer></script><script src="assets/overlay-v30.js?v=30.1" defer></script><script>document.documentElement.classList.add("r9-boot")</script><link rel="stylesheet" href="assets/portal.css?v=10.5"></head><body id="top">
 <header class="top">
 <button id="mobileNavTriggerV233" class="mobile-nav-trigger-v233" type="button" aria-label="Buka menu utama" aria-expanded="false">☰</button>
 <div class="brand"><h1>GROUND EXPERIENCE GARUDA INDONESIA</h1><p>Ground Experience • Service Experience Portal</p></div>
@@ -55,7 +55,7 @@
 <a href="admin.html" data-role-min="Admin">Admin / Pengelola</a>
 </aside><main class="main">
 <section class="hero">
-  <h2>Admin / Pengelola</h2>
+  <h2>Account &amp; Access Management</h2>
   <p>Governance workspace untuk pengelolaan akun, pesan masuk, content workflow, dan audit trail portal Ground Experience.</p>
 </section>
 
@@ -74,81 +74,17 @@
 </div>
 
 <section id="adminSectionAccounts" class="admin-section-panel">
-<div class="title" id="account-access">
-  <div><h3>Account & Access Management</h3><div class="section-subtitle">Kelola pegawai, akun login, role, area data, dan TAB yang dapat diakses.</div></div>
-  <button class="btn" data-admin-only onclick="openUserModal()">Tambah Akun</button>
-</div>
-
-<div class="card account-guide">
-  <div><b>Super Admin</b><span>All area • seluruh akses termasuk pengelolaan hak akses.</span></div>
-  <div><b>Admin</b><span>All area • edit/hapus data dan pengelolaan akun.</span></div>
-  <div><b>Branch Office</b><span>Data dibatasi pada Airport yang ditugaskan.</span></div>
-  <div><b>Staff</b><span>TAB ditentukan sesuai kebutuhan HO / BO.</span></div>
-  <div><b>Lounge Staff</b><span>Hanya Lounge Access & Visitor untuk lounge yang ditugaskan.</span></div>
-  <div><b>Lounge Luar Biasa</b><span>Lounge Access & Visitor untuk lounge yang ditugaskan, termasuk bulk upload visitor saat scanner/perangkat bermasalah.</span></div>
-</div>
-
-<div class="card data-filter-card">
-<div class="data-filter-grid">
-  <input id="accountSearch" placeholder="Cari nama / username / no. pegawai" oninput="renderUserAccounts()">
-  <select id="accountRoleFilter" onchange="renderUserAccounts()"><option value="">Semua Role</option></select>
-  <select id="accountStatusFilter" onchange="renderUserAccounts()"><option value="">Semua Status</option><option>Active</option><option>Inactive</option></select>
-  <input id="accountAreaFilter" placeholder="Unit / Area" oninput="renderUserAccounts()">
-</div></div>
-<div class="card table-scroll">
-<table class="user-access-table">
-<thead><tr>
-<th>No</th><th>Nama Pegawai</th><th>No. Pegawai</th><th>Username</th><th>Role</th><th>Unit / Area</th><th>Data Scope</th><th>Allowed TAB</th><th>Status</th><th data-admin-only>Kelola</th>
-</tr></thead>
-<tbody id="userAccountRows"></tbody>
-</table>
-</div>
-
-<div id="userAccountModal" class="modal-backdrop">
-<div class="modal-card account-modal-card">
-<button class="modal-x" onclick="closeUserModal()">×</button>
-<h2 id="userModalTitle">Tambah Akun</h2>
-<form id="userAccountForm" onsubmit="event.preventDefault();saveUserAccount()">
-<input id="userEditId" type="hidden">
-<div class="formgrid">
-<label>Nama Pegawai<input id="userFullName" required></label>
-<label>No. Pegawai<input id="userEmployeeNo"></label>
-<label>Username<input id="userUsername" required autocomplete="off"></label>
-<label>Password<input id="userPassword" type="password" required autocomplete="new-password"></label>
-<label>Role
-<select id="userRole" onchange="userRoleChanged()" required>
-<option>Super Admin</option><option>Admin</option><option>Branch Office</option><option>Staff</option><option>Lounge Staff</option><option>Lounge Luar Biasa</option>
-</select></label>
-<label>Unit / Area<input id="userUnit" placeholder="Head Office / BO CGK / CGK Lounge"></label>
-<label>Status<select id="userStatus"><option>Active</option><option>Inactive</option></select></label>
-</div>
-
-<div class="account-scope-box">
-<h3>Data Scope</h3>
-<div id="userAirportScopeWrap"><label>Airport (pisahkan dengan koma)<input id="userAirports" placeholder="CGK, DPS"></label></div>
-<div id="userLoungeScopeWrap"><label>Lounge
-<select id="userLoungeIds" multiple size="5"></select></label></div>
-</div>
-
-<div class="account-scope-box">
-<h3>Allowed TAB</h3>
-<div id="userTabsChecklist" class="tab-check-grid"></div>
-</div>
-
-<div class="modal-actions sticky-actions">
-<button class="btn">Simpan Akun</button>
-<button type="button" class="btn secondary" onclick="closeUserModal()">Batal</button>
-</div>
-</form>
-</div>
-</div>
-
+  <div class="p26-runtime-placeholder">Account &amp; Access Management workspace is initialized by P26.</div>
 </section>
 
 <section id="adminSectionInbox" class="admin-section-panel" style="display:none">
   <div class="title">
     <div><h3>Pesan Masuk</h3><div class="section-subtitle">Proposal artikel, pesan dari Hubungi Kami, dan Saran/Buku Tamu.</div></div>
   </div>
+  <section id="p32AccessAssistancePanel" class="p32-assistance-panel">
+    <div class="p32-panel-head"><div><h3>Bantuan Akses Akun</h3><div class="section-subtitle">Permintaan akses dari pengguna yang perlu ditindaklanjuti.</div></div><span class="p32-panel-label">Admin workflow</span></div>
+    <div data-p32-body class="p32-assistance-body"><div class="p32-empty">Memuat permintaan bantuan…</div></div>
+  </section>
   <div class="card data-filter-card">
     <div class="data-filter-grid">
       <input id="inboxSearch" placeholder="Cari pengirim / subjek / isi" oninput="renderAdminInbox()">
@@ -230,7 +166,7 @@
   </div>
 </div>
 </main></div>
-<script>(function(){var m=document.getElementById('userAccountModal');if(!m)return;document.body.appendChild(m);m.style.setProperty('position','fixed','important');m.style.setProperty('inset','0','important');m.style.setProperty('width','100vw','important');m.style.setProperty('height','100vh','important');m.style.setProperty('margin','0','important');m.style.setProperty('z-index','2147483000','important');m.style.setProperty('align-items','center','important');m.style.setProperty('justify-content','center','important');m.style.setProperty('padding','24px','important');var c=m.firstElementChild;if(c){c.style.setProperty('position','relative','important');c.style.setProperty('inset','auto','important');c.style.setProperty('transform','none','important');c.style.setProperty('margin','auto','important');c.style.setProperty('max-height','calc(100vh - 48px)','important');c.style.setProperty('overflow','auto','important')}})();</script>
+
 <footer class="footer"><b>GROUND EXPERIENCE — GARUDA INDONESIA</b><br>Portal Service Experience • Internal Ground Services Workspace</footer>
 <button id="backToTop" class="back-to-top" aria-label="Kembali ke atas" title="Kembali ke atas">↑</button>
-<script src="assets/v2554-stability.js?v=2.55.5" defer></script><script src="assets/portal-shell.js?v=10.5" defer></script></body></html>
+<script src="assets/v2554-stability.js?v=2.55.5" defer></script><script src="assets/access-assistance-p32.js?v=32.1" defer></script><script src="assets/p33-p37-presentation.js?v=37.1" defer></script><script src="assets/portal-shell.js?v=10.5" defer></script></body></html>

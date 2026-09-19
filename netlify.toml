@@ -1,5 +1,9 @@
 [build]
+  command = "npm --prefix netlify/functions install --omit=dev --ignore-scripts && npm run build"
   publish = "."
+
+[build.environment]
+  NODE_VERSION = "20"
 
 [context.production]
   publish = "."
@@ -9,6 +13,12 @@
 
 [context.branch-deploy]
   publish = "."
+
+[dev]
+  framework = "#static"
+  publish = "."
+  port = 8888
+  autoLaunch = false
 
 [functions]
   directory = "netlify/functions"
@@ -34,3 +44,9 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Frame-Options = "SAMEORIGIN"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true

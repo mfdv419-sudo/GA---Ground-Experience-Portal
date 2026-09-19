@@ -1,0 +1,21 @@
+node_modules/
+.netlify/
+.env
+.env.*
+!.env.example
+*.pem
+service-account*.json
+firebase-service-account*.json
+
+# Local development / verification outputs
+coverage/
+.nyc_output/
+*.log
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+artifacts/
+

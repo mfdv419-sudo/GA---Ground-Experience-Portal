@@ -1,4 +1,4 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Index</title><script src="assets/auth.js?v=2.54.1"></script><script src="assets/data.js?v=2.54.1"></script><script src="assets/core-v257.js?v=2.57-P1.1" defer></script><script src="assets/relationships-v257.js?v=2.57-P1.2" defer></script><script src="assets/compatibility-v257.js?v=2.57-P1.7" defer></script><script src="assets/files.js?v=2.54.1"></script><script src="assets/app.js?v=2.54.1" defer></script><script src="assets/v254-project.js?v=2.54.4" defer></script><script src="assets/v2544-modal-fix.js?v=2.54.4" defer></script><script>document.documentElement.classList.add("r9-boot")</script><link rel="stylesheet" href="assets/portal.css?v=10.5"></head><body id="top" class="lounge-tosca-theme lounge-reference-v237">
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Index</title><script src="assets/auth.js?v=2.54.1"></script><script src="assets/data.js?v=2.54.1"></script><script src="assets/core-v257.js?v=2.57-P1.1" defer></script><script src="assets/relationships-v257.js?v=2.57-P1.2" defer></script><script src="assets/compatibility-v257.js?v=2.57-P1.7" defer></script><script src="assets/files.js?v=2.54.1"></script><script src="assets/app.js?v=2.54.1" defer></script><script src="assets/v254-project.js?v=2.54.4" defer></script><script src="assets/v2544-modal-fix.js?v=2.54.4" defer></script><script>document.documentElement.classList.add("r9-boot")</script><link rel="stylesheet" href="assets/portal.css?v=10.5"></head><body id="top">
 <header class="top">
 <button id="mobileNavTriggerV233" class="mobile-nav-trigger-v233" type="button" aria-label="Buka menu utama" aria-expanded="false">☰</button>
 <div class="brand"><h1>GROUND EXPERIENCE GARUDA INDONESIA</h1><p>Ground Experience • Service Experience Portal</p></div>
@@ -63,7 +63,7 @@
   <div><h3>Lounge/Tenant Master</h3><div class="section-subtitle">Kelola layanan, provider, kontrak, harga, periode, dan dokumen pendukung sebagai bagian dari Service Planning.</div></div>
   <div class="bulk-action-group" data-admin-only>
     <button class="btn" onclick="openLoungeAddModalV230()">Tambah Layanan Lounge</button>
-    <button class="btn secondary" onclick="downloadLoungeTemplateV230()">Unduh Template</button>
+    <button class="btn secondary" onclick="downloadLoungeTemplateV230()">Download CSV Template</button>
     <button class="btn secondary" onclick="openBulkImportV223('lounge')">Upload Data</button>
   </div>
 </div>
@@ -128,70 +128,11 @@
 </div>
 
 <div id="loungeEditModal" class="modal-backdrop">
- <div class="modal-card lounge-edit-card">
-  <button class="modal-x" onclick="closeLoungeEdit()">×</button>
-  <h2>Update Layanan Lounge</h2>
-  <form id="loungeEditForm" onsubmit="event.preventDefault();saveLoungeEdit()">
-   <input id="editLoungeId" type="hidden">
-   <div class="formgrid">
-    <label>Region<select id="editLoungeRegion"><option>WEST</option><option>EAST</option><option>INT</option></select></label>
-    <label>Station<input id="editLoungeAirport" required></label>
-    <label>Nama Layanan / Provider<input id="editLoungeName" required></label>
-    <label>Jenis Layanan<input id="editLoungeCategory" placeholder="Lounge / Tenant / Snack Box"></label>
-    <label>Harga Per Pax<input id="editLoungePriceDisplay" placeholder="IDR 120000 / USD 47"></label>
-    <label>Mulai<input id="editLoungeStartDate" type="date"></label>
-    <label>Berakhir<input id="editLoungeEndDate" type="date"></label>
-    <label>Nomor Dokumen<input id="editLoungeDocumentNumber"></label>
-    <label>Jenis<input id="editLoungeDocumentType"></label>
-    <label>Status Dokumen<input id="editLoungeDocumentStatus"></label>
-    <label>Remarks<input id="editLoungeRemarks"></label>
-    <label>Update Lampiran<input id="editLoungeDocument" type="file"></label>
-   </div>
-   <div class="scan-actions">
-    <button class="btn">Update</button>
-    <button type="button" class="btn secondary" onclick="closeLoungeEdit()">Batal</button>
-   </div>
-  </form>
- </div>
+ <div class="modal-card lounge-edit-card"><div class="ge-p29-modal-placeholder">Update Layanan Lounge/Tenant</div></div>
 </div>
 
 <div id="loungeAddModalV221" class="modal-backdrop">
-  <div class="modal-card lounge-add-modal-v221">
-    <button class="modal-x" onclick="closeLoungeAddModalV221()">×</button>
-    <h2>Tambah Layanan Lounge</h2>
-    <p class="section-subtitle">Tambahkan layanan Lounge, Tenant, atau Snack Box beserta informasi kerja sama, periode, harga, dan dokumen.</p>
-    <form id="loungeAddFormV221" onsubmit="event.preventDefault();saveLoungeFromModalV221()">
-      <div class="formgrid">
-        <label>Airport<input id="loungeAirportV221" required placeholder="CGK"></label>
-        <label>Nama Layanan / Provider<input id="loungeNameV221" required></label>
-        <label>Jenis Layanan
-          <select id="loungeServiceTypeV229">
-            <option>Lounge</option>
-            <option>Tenant</option>
-            <option>Snack Box</option>
-          </select>
-        </label>
-        <label>PIC<input id="loungePicV221"></label>
-        <label>Region<input id="loungeRegionV221"></label>
-        
-        <label>Status Dokumen
-          <select id="loungeDocumentStatusV221"><option>Valid</option><option>Pending</option><option>Invalid</option></select>
-        </label>
-        <label>Tanggal Mulai<input id="loungeStartV221" type="date"></label>
-        <label>Tanggal Berakhir<input id="loungeEndV221" type="date"></label>
-        <label>Mata Uang<input id="loungeCurrencyV221" placeholder="IDR"></label>
-        <label>Harga / Pax<input id="loungePriceV221" type="number" min="0" step="0.01"></label>
-        <label>Nomor Dokumen<input id="loungeDocumentNumberV221"></label>
-        <label>Jenis Dokumen<input id="loungeDocumentTypeV221"></label>
-        <label>Remark<textarea id="loungeRemarksV221" rows="4"></textarea></label>
-        <label>Lampiran Dokumen<input id="loungeDocumentFileV230" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png"></label>
-      </div>
-      <div class="modal-actions sticky-actions">
-        <button class="btn">Simpan Layanan</button>
-        <button type="button" class="btn secondary" onclick="closeLoungeAddModalV221()">Batal</button>
-      </div>
-    </form>
-  </div>
+ <div class="modal-card lounge-add-modal-v221"><div class="ge-p29-modal-placeholder">Tambah Layanan Lounge/Tenant</div></div>
 </div>
 
 <div id="bulkImportModalV223" class="modal-backdrop">
@@ -215,7 +156,9 @@
   </div>
 </div>
 
+<div id="geP29PriceScheduleModal" class="modal-backdrop"><div class="modal-card ge-p29-schedule-modal"></div></div>
+
 </main></div>
 <footer class="footer"><b>GROUND EXPERIENCE — GARUDA INDONESIA</b><br>Portal Service Experience • Internal Ground Services Workspace</footer>
 <button id="backToTop" class="back-to-top" aria-label="Kembali ke atas" title="Kembali ke atas">↑</button>
-<script src="assets/v2554-stability.js?v=2.55.5" defer></script><script src="assets/portal-shell.js?v=10.5" defer></script></body></html>
+<script src="assets/v2554-stability.js?v=2.55.5" defer></script><script src="assets/lounge-planning-v29.js?v=29.1" defer></script><script src="assets/overlay-v30.js?v=30.1" defer></script><script src="assets/access-assistance-p32.js?v=32.1" defer></script><script src="assets/p33-p37-presentation.js?v=37.1" defer></script><script src="assets/portal-shell.js?v=10.5" defer></script></body></html>

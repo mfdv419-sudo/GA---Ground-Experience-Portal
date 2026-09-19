@@ -1,0 +1,17 @@
+{
+  "name": "ground-experience-garuda-indonesia-r10-20",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "netlify dev",
+    "preview": "node tools/serve.mjs --port 4173",
+    "build": "node tools/verify-package.mjs && node tests/regression-audit.js && node tests/p29-lounge-planning.js && node tests/p31-authentication.js && node tests/p31-auth-role-runtime.js && node tests/p31a-session-profile-service.js && node tests/p31b-login-access-assistance.js && node tests/p32-access-assistance-admin.js && node tests/p32-access-assistance-runtime.js && node tests/p33-p37-presentation.js && node tests/p27-profile-self-service.js && node tests/p38-repository-hygiene.js",
+    "dev:static": "node tools/serve.mjs --port 5173",
+    "package:deploy": "node tools/package-deploy.mjs",
+    "verify:repo": "node tests/p38-repository-hygiene.js"
+  },
+  "description": "Static multi-page Ground Experience portal; Netlify Functions use a separate dependency manifest.",
+  "version": "10.20.0"
+}

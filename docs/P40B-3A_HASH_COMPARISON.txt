@@ -1,0 +1,27 @@
+P40B-3A SHA-256 COMPARISON (FINAL)
+
+BASELINE FILE COUNT=215
+AFTER FILE COUNT=221
+MODIFIED=5
+ADDED=6
+DELETED=0
+
+MODIFIED FILES:
+airport-systems.html
+calendar.html
+kontak.html
+docs/README.md
+docs/ARCHITECTURE_AUTHORITY.md
+
+ADDED FILES:
+tests/.p40b3a-control.sha256
+tests/p40b3a-shared-shell-contract.js
+docs/P40B-3A_PROTECTED_HASHES.txt
+docs/P40B-3A_SHARED_SHELL_PILOT_REPORT.md
+docs/P40B-3A_HASH_COMPARISON.txt
+docs/SHARED_SHELL_CONTRACT.md
+
+DELETED FILES:
+
+assets/portal.css IDENTICAL=True
+assets/portal-shell.js IDENTICAL=True

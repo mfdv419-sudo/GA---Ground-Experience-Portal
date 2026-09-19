@@ -1,0 +1,9 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // User/profile and audit mutations are server-only through Netlify Functions.
+    match /users/{uid} { allow read, write: if false; }
+    match /usernameIndex/{username} { allow read, write: if false; }
+    match /auditLogs/{id} { allow read, write: if false; }
+  }
+}
