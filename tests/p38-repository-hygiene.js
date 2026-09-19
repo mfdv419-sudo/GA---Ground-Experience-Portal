@@ -42,5 +42,36 @@ for (const [rel, expected] of Object.entries(frozen)) {
   if (!exists(rel)) throw new Error(`FROZEN_FILE_MISSING ${rel}`);
   assert(sha(rel) === expected, `FROZEN_HASH_MISMATCH ${rel}`);
 }
-for (const rel of ['.env','.env.local','.netlify']) assert(!exists(rel), `LOCAL_STATE_PRESENT ${rel}`);
+
+for (const rel of ['.env','.env.local']) {
+  assert(!exists(rel), `LOCAL_STATE_PRESENT ${rel}`);
+}
+
+// `.netlify/` is local/CI-generated Netlify state, so filesystem existence alone
+// is not sufficient evidence that repository source contains it. A tracked
+// `.netlify/` path remains a repository-hygiene violation and must fail.
+function trackedNetlifyState(){
+  try {
+    const out = require('node:child_process').execFileSync(
+      'git', ['ls-files', '--', '.netlify/'],
+      { cwd: root, encoding: 'utf8', stdio: ['ignore','pipe','ignore'] }
+    );
+    return out.trim().length > 0;
+  } catch (_) {
+    return false;
+  }
+}
+
+if (exists('.netlify')) {
+  if (trackedNetlifyState()) {
+    throw new Error('LOCAL_STATE_PRESENT .netlify (tracked repository state)');
+  }
+
+  const isNetlifyBuild =
+    process.env.NETLIFY === 'true' &&
+    Boolean(process.env.COMMIT_REF);
+
+  assert(isNetlifyBuild, 'LOCAL_STATE_PRESENT .netlify');
+}
+
 console.log('P38_REPOSITORY_HYGIENE_PASS');
